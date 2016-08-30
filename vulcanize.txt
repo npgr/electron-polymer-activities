@@ -1,0 +1,1 @@
+vulcanize --inline-css --inline-scripts Pedido.html > Pedido2.html
