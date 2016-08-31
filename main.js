@@ -10,7 +10,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({title:"Mobile Demo App", width: 1200, height: 640, resizable: false, maximizable: false})
+  mainWindow = new BrowserWindow({title:"Mobile Demo App", width: 1150, height: 640, resizable: false, maximizable: false})
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/list_tasks.html`)

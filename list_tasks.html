@@ -1,7 +1,7 @@
 <!-- list template: version 7.23 --> 
 <html>
 <head><meta charset="UTF-8">
-	<title>List Activity</title>
+	<title>Activities</title>
 	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 	<script src="bower_components/intro.js/minified/intro.min.js"></script>
 	<script src="bower_components/jshashes/hashes.min.js"></script>
@@ -350,6 +350,10 @@ paper-menu {
 			//this.$.ajax2.generateRequest()
 			var fs = require('fs')
 			var data = JSON.parse(fs.readFileSync('Task.json'))
+			var id = 0
+			for (i=0; i<data.length; i++)
+				if (data[i].id > id) id = data[i].id
+			record.id = id+1
 			data.push(record)
 			fs.writeFileSync('Task.json', JSON.stringify(data))
 			if (!this.$.repeat.checked) {
@@ -751,7 +755,7 @@ paper-menu {
 		<div class="buttons">
 			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
 			<div class="card_line">
-				<paper-button id="delete_btn" class="btn" on-click="form_submit" raised>Delete</paper-button>
+				<paper-button id="delete_btn" class="btn" on-click="delete" raised>Delete</paper-button>
 				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
 			</div>
 		</div>
@@ -780,8 +784,19 @@ paper-menu {
 		delete: function() {
 /** USER POINT - Before Delete **/
 /** END USER POINT - Before Delete **/
-			this.$.ajax.url = config_server() + "Task/"+this.item.id
-			this.$.ajax.generateRequest()
+			//this.$.ajax.url = config_server() + "Task/"+this.item.id
+			//this.$.ajax.generateRequest()
+			var fs = require('fs')
+			var data = JSON.parse(fs.readFileSync('Task.json'))
+			for (i=0; i<data.length; i++)
+				if(data[i].id == this.item.id)
+				{
+					data.splice(i,1)
+					i = data.length
+				}					
+			fs.writeFileSync('Task.json', JSON.stringify(data))
+			this.$.dialog.close()
+			this.fire('close')
 		},
 		record_deleted: function() {
 			/** Validate Resource Authorized **/
@@ -1402,7 +1417,6 @@ Polymer({
 	this.$.ajax.generateRequest()
   },
   load_data: function() {
-	console.log('ajax data', this.$.ajax.lastResponse)
 	while(this.data.data[0]) {
         this.data.remove(this.data.data[0])
       }
@@ -1427,7 +1441,6 @@ Polymer({
 		this.$.ajax.lastResponse[i].priority_des= this.enums.priority[this.$.ajax.lastResponse[i].priority]	
 		this.data.insert(this.$.ajax.lastResponse[i])
 	}
-	console.log('this.data',this.data)
 	this.filter()
   },
   ajax_error: function() {
