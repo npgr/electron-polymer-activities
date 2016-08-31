@@ -349,13 +349,13 @@ paper-menu {
 			//this.$.ajax2.params = record
 			//this.$.ajax2.generateRequest()
 			var fs = require('fs')
-			var data = JSON.parse(fs.readFileSync('Task.json'))
+			var data = JSON.parse(fs.readFileSync('./Task.json'))
 			var id = 0
 			for (i=0; i<data.length; i++)
 				if (data[i].id > id) id = data[i].id
 			record.id = id+1
 			data.push(record)
-			fs.writeFileSync('Task.json', JSON.stringify(data))
+			fs.writeFileSync('./Task.json', JSON.stringify(data))
 			if (!this.$.repeat.checked) {
 				this.$.dialog.close()
 				this.fire('close')
@@ -787,14 +787,14 @@ paper-menu {
 			//this.$.ajax.url = config_server() + "Task/"+this.item.id
 			//this.$.ajax.generateRequest()
 			var fs = require('fs')
-			var data = JSON.parse(fs.readFileSync('Task.json'))
+			var data = JSON.parse(fs.readFileSync('./Task.json'))
 			for (i=0; i<data.length; i++)
 				if(data[i].id == this.item.id)
 				{
 					data.splice(i,1)
 					i = data.length
 				}					
-			fs.writeFileSync('Task.json', JSON.stringify(data))
+			fs.writeFileSync('./Task.json', JSON.stringify(data))
 			this.$.dialog.close()
 			this.fire('close')
 		},
@@ -1002,7 +1002,7 @@ Polymer({
 			}
 		}
 		//this.$.ajax.url = config_server() + "Task"
-		this.$.ajax.url = "Task.json"
+		this.$.ajax.url = "./Task.json"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
