@@ -1,6 +1,10 @@
 - Edit Record (ready)
 - About page (missing improve design)
+- Configure location of task file
+- List of types, status, priority from file (or config option)
 - Obfuscate
+- License File
+- For download program -> get email 
 - Title
 - On export, save description of enum fields
 - Save filters on file
@@ -10,9 +14,13 @@
 - Restriction of Demo (nro of records, date limit, license file)
 
 -----------------
+
+Search App Markets
+
+-----------------
 Demo Page
 
+- Wix
 - Linkedin pages
 - Github Pages
-- Wix
 - Google pages
