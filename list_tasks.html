@@ -23,7 +23,7 @@
 	<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
 	<link rel="import" href="bower_components/paper-menu/paper-menu.html">
 	<link rel="import" href="bower_components/paper-item/paper-item.html">
-	<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+	<!--<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">-->
 	<!-- Forms imports -->
 	<link rel="import" href="bower_components/polymer/polymer.html">
 	<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
@@ -38,7 +38,7 @@
 	margin-left: 80px;
 }
 #dialog {
-	width: 34em;
+	width: 36em;
 }
 .card {
 	width: 70em;
@@ -64,9 +64,55 @@ paper-menu {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
+[center] 
+{
+	display:flex;
+	justify-content:center;
+}
 /** USER POINT - General Style **/
 /** END USER POINT - General Style **/
 </style>
+
+<dom-module id="Task-about">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation"
+	   style="width: 22em;">
+		<!--<h2 class="card_title">About</h2>-->
+		  <!--<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			</div>
+		</div>-->
+		<div center><h2>Activities</h2></div>
+		<div center>Version 1.1.0</div>
+
+		<div center>Developed by Nuno Goncalves 2016</div>
+
+		<div center>twitter: @NunoGoncalvesR</div>
+		<div center>email: e_npgr@yahoo.com</div>
+		<br>
+		<div center>
+			<paper-button id="exit_btn" class="btn" dialog-confirm raised>Ok</paper-button>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-about",
+		open_about_dialog: function() {
+			this.$.dialog.open()
+		}
+	})
+</script>
+</dom-module>
 
 <!-- list-columns: version 5.12 -->
 
@@ -211,8 +257,8 @@ paper-menu {
 
 <dom-module id="Task-new">
 <template>
-	<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
-	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>
+	<!--<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>-->
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Create Activity</h2>
 		<paper-dialog-scrollable>
@@ -354,9 +400,10 @@ paper-menu {
 			for (i=0; i<data.length; i++)
 				if (data[i].id > id) id = data[i].id
 			record.id = id+1
-			data.push(record)
+			data.push(record) 
 			fs.writeFileSync('./Task.json', JSON.stringify(data))
 			if (!this.$.repeat.checked) {
+				//document.getElementById('task_list').add(record)
 				this.$.dialog.close()
 				this.fire('close')
 			} else 
@@ -516,7 +563,7 @@ paper-menu {
 
 <dom-module id="Task-edit">
 <template>
-	<iron-ajax id="ajax" method="PUT" handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>
+	<!--<iron-ajax id="ajax" method="PUT" handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>-->
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
 		<h2 class="card_title">Edit Activity</h2>
 		<paper-dialog-scrollable>
@@ -647,11 +694,23 @@ paper-menu {
 				record.end = this.$.end.value
 			record.responsible = this.$.responsible.value
 			record.notes = this.$.notes.value
-			this.$.ajax.url = config_server() + "Task/" +record.id
+			//this.$.ajax.url = config_server() + "Task/" +record.id
 /** USER POINT - Before Update **/
 /** END USER POINT - Before Update **/
-			this.$.ajax.params = record
-			this.$.ajax.generateRequest()
+			//this.$.ajax.params = record
+			//this.$.ajax.generateRequest()
+			var fs = require('fs')
+			var data = JSON.parse(fs.readFileSync('./Task.json'))
+			for (i=0; i<data.length; i++)
+				if(data[i].id == record.id)
+				{
+					data.splice(i,1)
+					i = data.length
+				}
+			data.push(record)
+			fs.writeFileSync('./Task.json', JSON.stringify(data))
+			this.$.dialog.close()
+			this.fire('close')
 		},
 		record_updated: function() {
 			/** Validate Resource Authorized **/
@@ -680,7 +739,7 @@ paper-menu {
 
 <dom-module id="Task-delete">
 <template>
-	<iron-ajax id="ajax" method="DELETE" handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>
+	<!--<iron-ajax id="ajax" method="DELETE" handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>-->
 	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
 		<h2 class="card_title">Delete Activity</h2>
 		<paper-dialog-scrollable>
@@ -825,12 +884,13 @@ paper-menu {
 <template>
 <!--USER POINT - List Style-->
 <!--END USER POINT - List Style-->
-	<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>
+	<!--<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>-->
 	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
 	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
 	<Task-display id="Task_display_dialog"></Task-display>
 	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
-	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>	
+	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
+	<Task-about id="about_dialog"></Task-about>
 	<!--<div class="card_title">List Activity</div>-->
 <!--USER POINT - List Header-->
 <!--END USER POINT - List Header-->
@@ -873,6 +933,7 @@ paper-menu {
 		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
 		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
 		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+		<paper-fab id="btn_about" mini on-click="about" icon="star"></paper-fab>
 		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
 	</div>
 	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
@@ -995,14 +1056,14 @@ Polymer({
 //USER POINT - List Start Ready
 //END USER POINT - List Start Ready
 		// For Sharepoint
-		if (typeof String.prototype.startsWith != 'function') {
+		/*if (typeof String.prototype.startsWith != 'function') {
 			// see below for better implementation!
 			String.prototype.startsWith = function (str){
 				return this.indexOf(str) === 0;
 			}
-		}
+		}*/
 		//this.$.ajax.url = config_server() + "Task"
-		this.$.ajax.url = "./Task.json"
+		//this.$.ajax.url = "./Task.json"
 		this.cur_sort = { field: "id", isdesc: true }
 		this.cur_filter = {}
 		var _model = [{column: "id", type: "integer", display: true},
@@ -1041,7 +1102,7 @@ Polymer({
 			doneLabel: 'Exit',
 			steps: [
 				{ element: '#btn_help',
-				intro: 'Para Obtener Ayuda acerca de esta página, puede utilizar el boton de ayuda'}],
+				intro: 'Button for Getting Help about this app'}],
 			showStepNumbers:false
 		})
 		/*document.addEventListener('DOMContentLoaded', function() {
@@ -1051,6 +1112,9 @@ Polymer({
 		}, false);*/
 //USER POINT - List End Ready
 //END USER POINT - List End Ready
+	},
+	about: function() {
+		this.$.about_dialog.open_about_dialog()
 	},
 	help: function() {
 
@@ -1064,26 +1128,28 @@ Polymer({
 			showStepNumbers:false,
 			steps: [
 				{ element: '#filter',
-				intro: 'Puede seleccionar cualquier campo como filtro de la lista'},
+				intro: 'The List of records can be filtered by any of this fields'},
 				{ element: '#op',
-				intro: 'operación de comparación'},
+				intro: 'Comparison Operator'},
 				{ element: '#filtro',
-				intro: 'valor de comparación'},
+				intro: 'Comparison Value'},
 				{ element: '#logic',
-				intro: 'Se puede agregar un segundo filtro'},
+				intro: 'A Second Filter can be defined'},
 				{ element: '#btn_add',
-				intro: 'Botón para crear nuevo registro'},
+				intro: 'Button for create a New Record'},
 				{ element: '#btn_down',
-				intro: 'Boton para descargar archivo de datos, el cual puede ser leido en Excel'},
+				intro: 'Download Button for export data to Excel, as a XML file'},
 				{ element: '#btn_print',
-				intro: 'Botón de Impresión, se puede exportar a pdf'},
+				intro: 'Print Button, the print can be export to Excel'},
 				{element: '#data_table',
-				intro: 'Lista de registros filtrados',
+				intro: 'List of Filtered Records',
 				position: 'top'},
 				{element: '#th_ops',
-				intro: 'Consigurar columnas a mostrar en lista de registros'},
+				intro: 'Configure Conlumns to show in Filtered List of Recors'},
 				{element: '#td_ops',
-				intro: 'Opciones para:<br> - Visualizar Registro<br> - Editar Registro<br> - Borrar Registro'}
+				intro: 'Options for:<br> - Display Record<br> - Edit Record<br> - Delete Record'},
+				{element: '#x',
+				intro: 'Any Column can be ordered ascending or descending clicking it on title'}
 			]
 		})
 		intro.start()
@@ -1414,7 +1480,29 @@ Polymer({
 	this.$.Task_new_dialog.open_dialog()
   },
   reload: function() {
-	this.$.ajax.generateRequest()
+	while(this.data.data[0]) {
+        this.data.remove(this.data.data[0])
+      }
+	var fs = require('fs')
+	var data = JSON.parse(fs.readFileSync('./Task.json'))
+	for (i=0; i < data.length; i++)
+	{
+		if (data[i].requestd)
+		data[i].requestd = data[i].requestd.substring(0,10)
+	  if (data[i].start)
+		data[i].start = data[i].start.substring(0,10)
+	  if (data[i].plannedend)
+		data[i].plannedend = data[i].plannedend.substring(0,10)
+	  if (data[i].end)
+		data[i].end = data[i].end.substring(0,10)
+		data[i].type_des= this.enums.type[data[i].type]
+		data[i].status_des= this.enums.status[data[i].status]
+		data[i].priority_des= this.enums.priority[data[i].priority]	
+		this.data.insert(data[i])
+	}
+		
+	this.filter()
+	//this.$.ajax.generateRequest()
   },
   load_data: function() {
 	while(this.data.data[0]) {

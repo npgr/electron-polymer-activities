@@ -1,0 +1,18 @@
+- Edit Record (ready)
+- About page (missing improve design)
+- Obfuscate
+- Title
+- On export, save description of enum fields
+- Save filters on file
+- i18n with file (or config option)
+- icon
+- colors with file (or config option)
+- Restriction of Demo (nro of records, date limit, license file)
+
+-----------------
+Demo Page
+
+- Linkedin pages
+- Github Pages
+- Wix
+- Google pages
