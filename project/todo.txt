@@ -13,6 +13,10 @@
 - colors with file (or config option)
 - Restriction of Demo (nro of records, date limit, license file)
 
+
+- App Market (Google Play, )
+- Hosting
+
 -----------------
 
 Search App Markets
