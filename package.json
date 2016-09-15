@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . Activities --platform=win32 --arch=x64  --version=1.3.3 --overwrite",
+    "build": "electron-packager . Activities --platform=win32 --arch=x64  --version=1.3.3 --overwrite --ignore=\"Activities_Web_Demo|Activities-win32-x64.rar|project|vulcanize.txt|.gitignore|Activities.lnk\"",
     "asar": "asar pack Activities-win32-x64/resources/app Activities-win32-x64/resources/app.asar"
   },
   "repository": {
