@@ -1,0 +1,9 @@
+html-minifier --minify-js --minify-css --remove-comments --output index.html list_tasks2.html
+
+list_task_orig
+
+list_tasks (obfuscated)
+
+list_tasks2 (vulcanized)
+
+index (html-minifier)
