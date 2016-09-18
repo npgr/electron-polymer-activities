@@ -1,1 +1,5 @@
-vulcanize --inline-css --inline-scripts Pedido.html > Pedido2.html
+vulcanize --inline-css --inline-scripts list_task.html > list_task2.html
+
+html-minifier --minify-js --minify-css --remove-comments --output index.html list_tasks2.html
+
+

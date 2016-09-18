@@ -1,0 +1,748 @@
+<!-- list template: version 7.23 --> 
+<html>
+<head><meta charset="UTF-8">
+	<title>Activities</title>
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script src="bower_components/intro.js/minified/intro.min.js"></script>
+	<script src="bower_components/jshashes/hashes.min.js"></script>
+	<script src="bower_components/lokijs/build/lokijs.min.js"></script>
+	<script src="bower_components/abdmob/x2js/xml2json.min.js"></script>
+	<script src="components/app-config/app-config.js"></script>
+	<script src="components/app-util/app-util.js"></script>
+	<link rel="stylesheet" href="styles/app.css">
+	<link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css">
+	<!-- polymer Components -->
+	<link rel="import" href="bower_components/paper-material/paper-material.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+	<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+	<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+	<link rel="import" href="bower_components/iron-dropdown/iron-dropdown.html">
+	<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+	<link rel="import" href="bower_components/paper-button/paper-button.html">
+	<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+	<link rel="import" href="bower_components/paper-menu/paper-menu.html">
+	<link rel="import" href="bower_components/paper-item/paper-item.html">
+	<!--<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">-->
+	<!-- Forms imports -->
+	<link rel="import" href="bower_components/polymer/polymer.html">
+	<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+	<link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+	<link rel="import" href="bower_components/neon-animation/animations/scale-up-animation.html">
+	<link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
+<!-- USER POINT - Include Libraries, Styles & Components -->
+<!-- END USER POINT - Include Libraries, Styles & Components --> 
+<style>
+#btn_area {
+	display: inline-block;
+	margin-left: 80px;
+}
+#dialog {
+	width: 36em;
+}
+.card {
+	width: 70em;
+	//top: 13px;
+	//left: 15px;
+}
+th div {
+	display: inline;
+}
+#menu_dialog {
+	position: absolute;
+	left: 45px;
+}
+paper-item {
+	min-height: 20px;
+	line-height: 35px;
+}
+paper-dialog {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+paper-menu {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+[center] 
+{
+	display:flex;
+	justify-content:center;
+}
+/** USER POINT - General Style **/
+/** END USER POINT - General Style **/
+</style>
+
+<dom-module id="Task-about">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation"
+	   style="width: 22em;">
+		<!--<h2 class="card_title">About</h2>-->
+		  <!--<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			</div>
+		</div>-->
+		<div center><h2>Activities</h2></div>
+		<div center>Version 1.1.2</div>
+
+		<div center>Developed by Nuno Goncalves 2016</div>
+
+		<div center>http://npgr.com.ve</div>
+		<div center style="margin-top:10px;">twitter: @NunoGoncalvesR</div>
+		<div center style="margin-top:10px;">email: Nuno.Goncalves@npgr.com.ve</div>
+		<br>
+		<div center>
+			<paper-button id="exit_btn" class="btn" dialog-confirm raised>Ok</paper-button>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	Polymer({
+		is: "Task-about",
+		open_about_dialog: function() {
+			this.$.dialog.open()
+		}
+	})
+</script>
+</dom-module>
+
+<!-- list-columns: version 5.12 -->
+
+<dom-module id="Task-list-columns">
+<template>
+<style>
+	.green {
+		background-color: green;
+		color: white;
+		height: 30px;
+	}
+	.orange {
+		color: white;
+		background-color: orange;
+		height: 30px;
+	}
+	#dialog_columns {
+		width: 27em;
+	}
+	#dialog_columns table div {
+		width: 5.5em;
+		text-align: center;
+		padding-top: 5px;
+		height: 28px;
+	}
+</style>
+	<paper-dialog id="dialog_columns" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Columns Activity</h2>
+			<paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><div id="id" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity</label></td>
+				<td><div id="activity" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><div id="type" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><div id="status" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="priority">Priority</label></td>
+				<td><div id="priority" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Requester</label></td>
+				<td><div id="requester" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Request</label></td>
+				<td><div id="requestd" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Start</label></td>
+				<td><div id="start" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="plannedend">Planned End</label></td>
+				<td><div id="plannedend" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">End</label></td>
+				<td><div id="end" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsible">Responsible</label></td>
+				<td><div id="responsible" on-click="change_field"></div></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="notes">Notes</label></td>
+				<td><div id="notes" on-click="change_field"></div></td>
+			</tr>
+			</table>
+			</paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>Change </paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	var _0xb4fa=["\x54\x61\x73\x6B\x2D\x6C\x69\x73\x74\x2D\x63\x6F\x6C\x75\x6D\x6E\x73","\x75\x70\x64\x61\x74\x65\x64","\x63\x6F\x6C\x75\x6D\x6E","\x69\x64","\x73\x68\x6F\x77\x5F\x66\x69\x65\x6C\x64","\x61\x63\x74\x69\x76\x69\x74\x79","\x74\x79\x70\x65","\x73\x74\x61\x74\x75\x73","\x70\x72\x69\x6F\x72\x69\x74\x79","\x72\x65\x71\x75\x65\x73\x74\x65\x72","\x72\x65\x71\x75\x65\x73\x74\x64","\x73\x74\x61\x72\x74","\x70\x6C\x61\x6E\x6E\x65\x64\x65\x6E\x64","\x65\x6E\x64","\x72\x65\x73\x70\x6F\x6E\x73\x69\x62\x6C\x65","\x6E\x6F\x74\x65\x73","\x6F\x70\x65\x6E","\x64\x69\x61\x6C\x6F\x67\x5F\x63\x6F\x6C\x75\x6D\x6E\x73","\x24","\x74\x6F\x45\x6C\x65\x6D\x65\x6E\x74","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x53\x68\x6F\x77","\x6F\x72\x61\x6E\x67\x65","\x72\x65\x6D\x6F\x76\x65","\x63\x6C\x61\x73\x73\x4C\x69\x73\x74","\x67\x72\x65\x65\x6E","\x61\x64\x64","\x48\x69\x64\x65","\x63\x6C\x6F\x73\x65","\x66\x69\x72\x65"];Polymer({is:_0xb4fa[0],open_list_columns:function(_0xdac2x1){this[_0xb4fa[1]]= false,this[_0xb4fa[2]]= _0xdac2x1;this[_0xb4fa[4]](_0xb4fa[3]);this[_0xb4fa[4]](_0xb4fa[5]);this[_0xb4fa[4]](_0xb4fa[6]);this[_0xb4fa[4]](_0xb4fa[7]);this[_0xb4fa[4]](_0xb4fa[8]);this[_0xb4fa[4]](_0xb4fa[9]);this[_0xb4fa[4]](_0xb4fa[10]);this[_0xb4fa[4]](_0xb4fa[11]);this[_0xb4fa[4]](_0xb4fa[12]);this[_0xb4fa[4]](_0xb4fa[13]);this[_0xb4fa[4]](_0xb4fa[14]);this[_0xb4fa[4]](_0xb4fa[15]);this[_0xb4fa[18]][_0xb4fa[17]][_0xb4fa[16]]()},change_field:function(_0xdac2x2){var _0xdac2x3=_0xdac2x2[_0xb4fa[19]][_0xb4fa[3]];this[_0xb4fa[2]][_0xdac2x3]= !this[_0xb4fa[2]][_0xdac2x3];this[_0xb4fa[4]](_0xdac2x3)},show_field:function(_0xdac2x3){if(this[_0xb4fa[2]][_0xdac2x3]){this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[20]]= _0xb4fa[21];this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[24]][_0xb4fa[23]](_0xb4fa[22]);this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[24]][_0xb4fa[26]](_0xb4fa[25])}else {this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[20]]= _0xb4fa[27];this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[24]][_0xb4fa[23]](_0xb4fa[25]);this[_0xb4fa[18]][_0xdac2x3][_0xb4fa[24]][_0xb4fa[26]](_0xb4fa[22])}},submit_form:function(){this[_0xb4fa[1]]= true;this[_0xb4fa[18]][_0xb4fa[17]][_0xb4fa[28]]();this[_0xb4fa[29]](_0xb4fa[28])}})
+</script>
+</dom-module>
+
+<!-- new-form: version 5.23 -->
+
+<dom-module id="Task-new">
+<template>
+	<!--<iron-ajax id="ajax" handle-as="json" on-response="validate_record" on-error="ajax_error"></iron-ajax>
+	<iron-ajax id="ajax2" method="POST" handle-as="json" on-response="record_created" on-error="ajax_error"></iron-ajax>-->
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Create Activity</h2>
+		<paper-dialog-scrollable>
+		  <form id="form" action="javascript:void(0);" on-submit="create">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity<strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type">
+						<option value="i">Incident</option>
+						<option value="t">Task</option>
+						<option value="c">Change</option>
+						<option value="p">Project</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><select id="status" name="status">
+						<option value="p">Pending</option>
+						<option value="l">Planning</option>
+						<option value="e">Working on</option>
+						<option value="s">Stand by</option>
+						<option value="c">Certificate</option>
+						<option value="x">Close</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="priority">Priority</label></td>
+				<td><select id="priority" name="priority">
+						<option value="b">Low</option>
+						<option value="m">Medium</option>
+						<option value="a">Hight</option>
+						<option value="c">Critic</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Requester</label></td>
+				<td><input id="requester" type="text" name="requester"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Request</label></td>
+				<td><input id="requestd" type="date" name="requestd"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Start</label></td>
+				<td><input id="start" type="date" name="start"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="plannedend">Planned End</label></td>
+				<td><input id="plannedend" type="date" name="plannedend"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">End</label></td>
+				<td><input id="end" type="date" name="end"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsible">Responsible</label></td>
+				<td><input id="responsible" type="text" name="responsible"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="notes">Notes</label></td>
+				<td><textarea id="notes" name="notes" rows="3" cols="40"></textarea></td>
+			</tr>
+			</table>
+			<div class="buttons">
+				<input id="submit_btn" class="hide" type="submit" value="CREAR">
+				<div class="card_line">
+					Repeat <input id="repeat" type="checkbox" name="repeat">
+					<paper-button id="create_btn" class="btn" on-click="create" raised>Create</paper-button>
+					<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+				</div>
+			</div>
+		  </form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	var _0x583c=["\x54\x61\x73\x6B\x2D\x6E\x65\x77","\x63\x6C\x65\x61\x72","\x6F\x70\x65\x6E","\x64\x69\x61\x6C\x6F\x67","\x24","\x76\x61\x6C\x75\x65","\x69\x64","","\x61\x63\x74\x69\x76\x69\x74\x79","\x72\x65\x71\x75\x65\x73\x74\x65\x72","\x72\x65\x71\x75\x65\x73\x74\x64","\x73\x74\x61\x72\x74","\x70\x6C\x61\x6E\x6E\x65\x64\x65\x6E\x64","\x65\x6E\x64","\x72\x65\x73\x70\x6F\x6E\x73\x69\x62\x6C\x65","\x6E\x6F\x74\x65\x73","\x63\x6C\x69\x63\x6B","\x66\x69\x65\x6C\x64","\x67\x65\x74\x41\x74\x74\x72\x69\x62\x75\x74\x65","\x74\x6F\x45\x6C\x65\x6D\x65\x6E\x74","\x6E\x61\x6D\x65","\x69\x74\x65\x6D","\x73\x72\x63\x45\x6C\x65\x6D\x65\x6E\x74","\x6B\x65\x79","\x74\x79\x70\x65","\x73\x74\x61\x74\x75\x73","\x70\x72\x69\x6F\x72\x69\x74\x79","\x66\x73","\x2E\x2F\x54\x61\x73\x6B\x2E\x6A\x73\x6F\x6E","\x72\x65\x61\x64\x46\x69\x6C\x65\x53\x79\x6E\x63","\x70\x61\x72\x73\x65","\x6C\x65\x6E\x67\x74\x68","\x70\x75\x73\x68","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x77\x72\x69\x74\x65\x46\x69\x6C\x65\x53\x79\x6E\x63","\x63\x68\x65\x63\x6B\x65\x64","\x72\x65\x70\x65\x61\x74","\x63\x6C\x6F\x73\x65","\x66\x69\x72\x65","\x61\x75\x74\x68\x5F\x6D\x73\x67","\x6C\x61\x73\x74\x52\x65\x73\x70\x6F\x6E\x73\x65","\x61\x6A\x61\x78\x32","\x75\x6E\x64\x65\x66\x69\x6E\x65\x64","\x52\x65\x63\x6F\x72\x64\x20\x43\x72\x65\x61\x74\x65\x64","\x75\x72\x6C","\x61\x6A\x61\x78","\x54\x61\x73\x6B\x2F\x65\x78\x69\x73\x74\x2F","\x67\x65\x6E\x65\x72\x61\x74\x65\x52\x65\x71\x75\x65\x73\x74","\x73\x75\x62\x6D\x69\x74\x5F\x62\x74\x6E","\x65\x78\x69\x73\x74","\x52\x65\x63\x6F\x72\x64\x20\x61\x6C\x72\x65\x61\x64\x79\x20\x45\x78\x69\x73\x74","\x6C\x61\x73\x74\x45\x72\x72\x6F\x72","\x6C\x6F\x67","\x45\x72\x72\x6F\x72\x20\x50\x72\x6F\x63\x65\x73\x73\x69\x6E\x67\x20\x52\x65\x71\x75\x65\x73\x74\x3A\x20"];Polymer({is:_0x583c[0],open_dialog:function(){this[_0x583c[1]]();this[_0x583c[4]][_0x583c[3]][_0x583c[2]]()},clear:function(){this[_0x583c[4]][_0x583c[6]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[8]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[9]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[10]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[11]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[12]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[13]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[14]][_0x583c[5]]= _0x583c[7];this[_0x583c[4]][_0x583c[15]][_0x583c[5]]= _0x583c[7]},select_field_b:function(_0x2747x1){this[_0x583c[4]][_0x2747x1[_0x583c[19]][_0x583c[18]](_0x583c[17])][_0x583c[16]]()},select_field:function(_0x2747x1){this[_0x583c[17]]= _0x2747x1[_0x583c[19]][_0x583c[6]]},set_select_field:function(_0x2747x1){this[_0x583c[4]][this[_0x583c[17]]][_0x583c[5]]= this[_0x583c[4]][_0x2747x1[_0x583c[22]][_0x583c[6]]][_0x583c[21]][_0x583c[20]];this[_0x583c[4]][this[_0x583c[17]]][_0x583c[23]]= this[_0x583c[4]][_0x2747x1[_0x583c[22]][_0x583c[6]]][_0x583c[21]][_0x583c[23]]},create:function(){var _0x2747x2={};_0x2747x2[_0x583c[8]]= this[_0x583c[4]][_0x583c[8]][_0x583c[5]];_0x2747x2[_0x583c[24]]= this[_0x583c[4]][_0x583c[24]][_0x583c[5]];_0x2747x2[_0x583c[25]]= this[_0x583c[4]][_0x583c[25]][_0x583c[5]];_0x2747x2[_0x583c[26]]= this[_0x583c[4]][_0x583c[26]][_0x583c[5]];_0x2747x2[_0x583c[9]]= this[_0x583c[4]][_0x583c[9]][_0x583c[5]];if(this[_0x583c[4]][_0x583c[10]][_0x583c[5]]){_0x2747x2[_0x583c[10]]= this[_0x583c[4]][_0x583c[10]][_0x583c[5]]};if(this[_0x583c[4]][_0x583c[11]][_0x583c[5]]){_0x2747x2[_0x583c[11]]= this[_0x583c[4]][_0x583c[11]][_0x583c[5]]};if(this[_0x583c[4]][_0x583c[12]][_0x583c[5]]){_0x2747x2[_0x583c[12]]= this[_0x583c[4]][_0x583c[12]][_0x583c[5]]};if(this[_0x583c[4]][_0x583c[13]][_0x583c[5]]){_0x2747x2[_0x583c[13]]= this[_0x583c[4]][_0x583c[13]][_0x583c[5]]};_0x2747x2[_0x583c[14]]= this[_0x583c[4]][_0x583c[14]][_0x583c[5]];_0x2747x2[_0x583c[15]]= this[_0x583c[4]][_0x583c[15]][_0x583c[5]];var _0x2747x3=require(_0x583c[27]);var _0x2747x4=JSON[_0x583c[30]](_0x2747x3[_0x583c[29]](_0x583c[28]));var _0x2747x5=0;for(i= 0;i< _0x2747x4[_0x583c[31]];i++){if(_0x2747x4[i][_0x583c[6]]> _0x2747x5){_0x2747x5= _0x2747x4[i][_0x583c[6]]}};_0x2747x2[_0x583c[6]]= _0x2747x5+ 1;_0x2747x4[_0x583c[32]](_0x2747x2);_0x2747x3[_0x583c[34]](_0x583c[28],JSON[_0x583c[33]](_0x2747x4));if(!this[_0x583c[4]][_0x583c[36]][_0x583c[35]]){this[_0x583c[4]][_0x583c[3]][_0x583c[37]]();this[_0x583c[38]](_0x583c[37])}else {this[_0x583c[1]]()}},record_created:function(){if( typeof this[_0x583c[4]][_0x583c[41]][_0x583c[40]][_0x583c[39]]!== _0x583c[42]){alert(this[_0x583c[4]][_0x583c[41]][_0x583c[40]][_0x583c[39]]);return};alert(_0x583c[43]);if(!this[_0x583c[4]][_0x583c[36]][_0x583c[35]]){this[_0x583c[4]][_0x583c[3]][_0x583c[37]]();this[_0x583c[38]](_0x583c[37])}else {this[_0x583c[1]]()}},submit_form:function(){if(!isNaN(this[_0x583c[4]][_0x583c[6]][_0x583c[5]])){if(this[_0x583c[4]][_0x583c[6]][_0x583c[5]]> 0){this[_0x583c[4]][_0x583c[45]][_0x583c[44]]= config_server()+ _0x583c[46]+ this[_0x583c[4]][_0x583c[6]][_0x583c[5]];this[_0x583c[4]][_0x583c[45]][_0x583c[47]]()}else {this[_0x583c[4]][_0x583c[48]][_0x583c[16]]()}}else {this[_0x583c[4]][_0x583c[48]][_0x583c[16]]()}},validate_record:function(){if(this[_0x583c[4]][_0x583c[45]][_0x583c[40]][_0x583c[49]]){alert(_0x583c[50])}else {this[_0x583c[4]][_0x583c[48]][_0x583c[16]]()}},ajax_error:function(){console[_0x583c[52]](this[_0x583c[4]][_0x583c[45]][_0x583c[51]]);alert(_0x583c[53],this[_0x583c[4]][_0x583c[45]][_0x583c[51]])}})
+</script>
+</dom-module>
+
+<!-- display-form: version 5.20 -->
+
+<dom-module id="Task-display">
+<template>
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Display Activity</h2>
+		  <paper-dialog-scrollable>
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity</label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="i">Incident</option>
+						<option value="t">Task</option>
+						<option value="c">Change</option>
+						<option value="p">Project</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><select id="status" name="status" disabled>
+						<option value="p">Pending</option>
+						<option value="l">Planning</option>
+						<option value="e">Working on</option>
+						<option value="s">Stand by</option>
+						<option value="c">Certificate</option>
+						<option value="x">Close</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="priority">Priority</label></td>
+				<td><select id="priority" name="priority" disabled>
+						<option value="b">Low</option>
+						<option value="m">Medium</option>
+						<option value="a">Hight</option>
+						<option value="c">Critic</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Requester</label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Request</label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Start</label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="plannedend">Planned End</label></td>
+				<td><input id="plannedend" type="date" name="plannedend" value="{{item.plannedend}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">End</label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsible">Responsible</label></td>
+				<td><input id="responsible" type="text" name="responsible" value="{{item.responsible}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="notes">Notes</label></td>
+				<td><textarea id="notes" name="notes" rows="3" cols="40" value="{{item.notes}}" disabled></textarea></td>
+			</tr>
+			</table>
+		  </paper-dialog-scrollable>
+		<div class="buttons">
+			<div class="card_line">
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			</div>
+		</div>
+	</paper-dialog>
+</template>
+<script>
+	var _0x1fa6=["\x54\x61\x73\x6B\x2D\x64\x69\x73\x70\x6C\x61\x79","\x69\x74\x65\x6D","\x73\x65\x74\x5F\x73\x65\x6C\x65\x63\x74\x5F\x66\x69\x65\x6C\x64\x73","\x6F\x70\x65\x6E","\x64\x69\x61\x6C\x6F\x67","\x24","\x76\x61\x6C\x75\x65","\x74\x79\x70\x65","\x73\x74\x61\x74\x75\x73","\x70\x72\x69\x6F\x72\x69\x74\x79"];Polymer({is:_0x1fa6[0],open_display_dialog:function(_0x9637x1){this[_0x1fa6[1]]= _0x9637x1;this[_0x1fa6[2]](_0x9637x1);this[_0x1fa6[5]][_0x1fa6[4]][_0x1fa6[3]]()},set_select_fields:function(_0x9637x1){this[_0x1fa6[5]][_0x1fa6[7]][_0x1fa6[6]]= _0x9637x1[_0x1fa6[7]];this[_0x1fa6[5]][_0x1fa6[8]][_0x1fa6[6]]= _0x9637x1[_0x1fa6[8]];this[_0x1fa6[5]][_0x1fa6[9]][_0x1fa6[6]]= _0x9637x1[_0x1fa6[9]]}})
+</script>
+</dom-module>
+
+<!-- edit-form: version 5.23 -->
+
+<dom-module id="Task-edit">
+<template>
+	<!--<iron-ajax id="ajax" method="PUT" handle-as="json" on-response="record_updated" on-error="ajax_error"></iron-ajax>-->
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" 	exit-animation="fade-out-animation">
+		<h2 class="card_title">Edit Activity</h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="update">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity<strong class="red"> *</strong></label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" required></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type">
+						<option value="i">Incident</option>
+						<option value="t">Task</option>
+						<option value="c">Change</option>
+						<option value="p">Project</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><select id="status" name="status">
+						<option value="p">Pending</option>
+						<option value="l">Planning</option>
+						<option value="e">Working on</option>
+						<option value="s">Stand by</option>
+						<option value="c">Certificate</option>
+						<option value="x">Close</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="priority">Priority</label></td>
+				<td><select id="priority" name="priority">
+						<option value="b">Low</option>
+						<option value="m">Medium</option>
+						<option value="a">Hight</option>
+						<option value="c">Critic</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Requester</label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Request</label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Start</label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="plannedend">Planned End</label></td>
+				<td><input id="plannedend" type="date" name="plannedend" value="{{item.plannedend}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">End</label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsible">Responsible</label></td>
+				<td><input id="responsible" type="text" name="responsible" value="{{item.responsible}}"></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="notes">Notes</label></td>
+				<td><textarea id="notes" name="notes" rows="3" cols="40" value="{{item.notes}}"></textarea></td>
+			</tr>
+			</table>
+			<div class="buttons">
+			  <input id="submit_update" class="hide" type="submit" value="CAMBIAR">
+			  <div class="card_line">
+				<paper-button id="update_btn" class="btn" on-click="submit_form" raised>Change </paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			  </div>
+			</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	var _0x19ef=["\x54\x61\x73\x6B\x2D\x65\x64\x69\x74","\x69\x74\x65\x6D","\x73\x65\x74\x5F\x73\x65\x6C\x65\x63\x74\x5F\x66\x69\x65\x6C\x64\x73","\x6F\x70\x65\x6E","\x64\x69\x61\x6C\x6F\x67","\x24","\x76\x61\x6C\x75\x65","\x74\x79\x70\x65","\x73\x74\x61\x74\x75\x73","\x70\x72\x69\x6F\x72\x69\x74\x79","\x63\x6C\x69\x63\x6B","\x66\x69\x65\x6C\x64","\x67\x65\x74\x41\x74\x74\x72\x69\x62\x75\x74\x65","\x74\x6F\x45\x6C\x65\x6D\x65\x6E\x74","\x69\x64","\x6E\x61\x6D\x65","\x73\x72\x63\x45\x6C\x65\x6D\x65\x6E\x74","\x6B\x65\x79","\x73\x75\x62\x6D\x69\x74\x5F\x75\x70\x64\x61\x74\x65","\x61\x63\x74\x69\x76\x69\x74\x79","\x72\x65\x71\x75\x65\x73\x74\x65\x72","\x72\x65\x71\x75\x65\x73\x74\x64","\x73\x74\x61\x72\x74","\x70\x6C\x61\x6E\x6E\x65\x64\x65\x6E\x64","\x65\x6E\x64","\x72\x65\x73\x70\x6F\x6E\x73\x69\x62\x6C\x65","\x6E\x6F\x74\x65\x73","\x66\x73","\x2E\x2F\x54\x61\x73\x6B\x2E\x6A\x73\x6F\x6E","\x72\x65\x61\x64\x46\x69\x6C\x65\x53\x79\x6E\x63","\x70\x61\x72\x73\x65","\x6C\x65\x6E\x67\x74\x68","\x73\x70\x6C\x69\x63\x65","\x70\x75\x73\x68","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x77\x72\x69\x74\x65\x46\x69\x6C\x65\x53\x79\x6E\x63","\x63\x6C\x6F\x73\x65","\x66\x69\x72\x65","\x61\x75\x74\x68\x5F\x6D\x73\x67","\x6C\x61\x73\x74\x52\x65\x73\x70\x6F\x6E\x73\x65","\x61\x6A\x61\x78","\x75\x6E\x64\x65\x66\x69\x6E\x65\x64","\x52\x65\x63\x6F\x72\x64\x20\x55\x70\x64\x61\x74\x65\x64","\x6C\x61\x73\x74\x45\x72\x72\x6F\x72","\x6C\x6F\x67","\x45\x72\x72\x6F\x72\x20\x50\x72\x6F\x63\x65\x73\x73\x69\x6E\x67\x20\x52\x65\x71\x75\x65\x73\x74\x3A\x20"];Polymer({is:_0x19ef[0],open_dialog:function(_0x15adx1){this[_0x19ef[1]]= _0x15adx1;this[_0x19ef[2]](_0x15adx1);this[_0x19ef[5]][_0x19ef[4]][_0x19ef[3]]()},set_select_fields:function(_0x15adx1){this[_0x19ef[5]][_0x19ef[7]][_0x19ef[6]]= _0x15adx1[_0x19ef[7]];this[_0x19ef[5]][_0x19ef[8]][_0x19ef[6]]= _0x15adx1[_0x19ef[8]];this[_0x19ef[5]][_0x19ef[9]][_0x19ef[6]]= _0x15adx1[_0x19ef[9]]},select_field_b:function(_0x15adx2){this[_0x19ef[5]][_0x15adx2[_0x19ef[13]][_0x19ef[12]](_0x19ef[11])][_0x19ef[10]]()},select_field:function(_0x15adx2){this[_0x19ef[11]]= _0x15adx2[_0x19ef[13]][_0x19ef[14]]},set_select_field:function(_0x15adx2){this[_0x19ef[5]][this[_0x19ef[11]]][_0x19ef[6]]= this[_0x19ef[5]][_0x15adx2[_0x19ef[16]][_0x19ef[14]]][_0x19ef[1]][_0x19ef[15]];this[_0x19ef[5]][this[_0x19ef[11]]][_0x19ef[17]]= this[_0x19ef[5]][_0x15adx2[_0x19ef[16]][_0x19ef[14]]][_0x19ef[1]][_0x19ef[17]]},submit_form:function(){this[_0x19ef[5]][_0x19ef[18]][_0x19ef[10]]()},update:function(){var _0x15adx3={};_0x15adx3[_0x19ef[14]]= Number(this[_0x19ef[5]][_0x19ef[14]][_0x19ef[6]]);_0x15adx3[_0x19ef[19]]= this[_0x19ef[5]][_0x19ef[19]][_0x19ef[6]];_0x15adx3[_0x19ef[7]]= this[_0x19ef[5]][_0x19ef[7]][_0x19ef[6]];_0x15adx3[_0x19ef[8]]= this[_0x19ef[5]][_0x19ef[8]][_0x19ef[6]];_0x15adx3[_0x19ef[9]]= this[_0x19ef[5]][_0x19ef[9]][_0x19ef[6]];_0x15adx3[_0x19ef[20]]= this[_0x19ef[5]][_0x19ef[20]][_0x19ef[6]];if(this[_0x19ef[5]][_0x19ef[21]][_0x19ef[6]]){_0x15adx3[_0x19ef[21]]= this[_0x19ef[5]][_0x19ef[21]][_0x19ef[6]]};if(this[_0x19ef[5]][_0x19ef[22]][_0x19ef[6]]){_0x15adx3[_0x19ef[22]]= this[_0x19ef[5]][_0x19ef[22]][_0x19ef[6]]};if(this[_0x19ef[5]][_0x19ef[23]][_0x19ef[6]]){_0x15adx3[_0x19ef[23]]= this[_0x19ef[5]][_0x19ef[23]][_0x19ef[6]]};if(this[_0x19ef[5]][_0x19ef[24]][_0x19ef[6]]){_0x15adx3[_0x19ef[24]]= this[_0x19ef[5]][_0x19ef[24]][_0x19ef[6]]};_0x15adx3[_0x19ef[25]]= this[_0x19ef[5]][_0x19ef[25]][_0x19ef[6]];_0x15adx3[_0x19ef[26]]= this[_0x19ef[5]][_0x19ef[26]][_0x19ef[6]];var _0x15adx4=require(_0x19ef[27]);var _0x15adx5=JSON[_0x19ef[30]](_0x15adx4[_0x19ef[29]](_0x19ef[28]));for(i= 0;i< _0x15adx5[_0x19ef[31]];i++){if(_0x15adx5[i][_0x19ef[14]]== _0x15adx3[_0x19ef[14]]){_0x15adx5[_0x19ef[32]](i,1);i= _0x15adx5[_0x19ef[31]]}};_0x15adx5[_0x19ef[33]](_0x15adx3);_0x15adx4[_0x19ef[35]](_0x19ef[28],JSON[_0x19ef[34]](_0x15adx5));this[_0x19ef[5]][_0x19ef[4]][_0x19ef[36]]();this[_0x19ef[37]](_0x19ef[36])},record_updated:function(){if( typeof this[_0x19ef[5]][_0x19ef[40]][_0x19ef[39]][_0x19ef[38]]!== _0x19ef[41]){alert(this[_0x19ef[5]][_0x19ef[40]][_0x19ef[39]][_0x19ef[38]]);return};alert(_0x19ef[42]);this[_0x19ef[5]][_0x19ef[4]][_0x19ef[36]]();this[_0x19ef[37]](_0x19ef[36])},ajax_error:function(){console[_0x19ef[44]](this[_0x19ef[5]][_0x19ef[40]][_0x19ef[43]]);alert(_0x19ef[45],this[_0x19ef[5]][_0x19ef[40]][_0x19ef[43]])}})
+</script>
+</dom-module>
+
+<!-- delete-form: version 5.23 -->
+
+<dom-module id="Task-delete">
+<template>
+	<!--<iron-ajax id="ajax" method="DELETE" handle-as="json" on-response="record_deleted" on-error="ajax_error"></iron-ajax>-->
+	<paper-dialog id="dialog" modal vertical layout entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+		<h2 class="card_title">Delete Activity</h2>
+		<paper-dialog-scrollable>
+		<form id="form" action="javascript:void(0);" on-submit="delete">
+			<table class="table_dialog" style="width:100%">
+			<tr>
+				<td><label class="left_label" for="id">Id</label></td>
+				<td><input id="id" type="number" name="id" value="{{item.id}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="activity">Activity</label></td>
+				<td><input id="activity" type="text" name="activity" value="{{item.activity}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="type">Type</label></td>
+				<td><select id="type" name="type" disabled>
+						<option value="i">Incident</option>
+						<option value="t">Task</option>
+						<option value="c">Change</option>
+						<option value="p">Project</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="status">Status</label></td>
+				<td><select id="status" name="status" disabled>
+						<option value="p">Pending</option>
+						<option value="l">Planning</option>
+						<option value="e">Working on</option>
+						<option value="s">Stand by</option>
+						<option value="c">Certificate</option>
+						<option value="x">Close</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="priority">Priority</label></td>
+				<td><select id="priority" name="priority" disabled>
+						<option value="b">Low</option>
+						<option value="m">Medium</option>
+						<option value="a">Hight</option>
+						<option value="c">Critic</option>
+					</select></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requester">Requester</label></td>
+				<td><input id="requester" type="text" name="requester" value="{{item.requester}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="requestd">Request</label></td>
+				<td><input id="requestd" type="date" name="requestd" value="{{item.requestd}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="start">Start</label></td>
+				<td><input id="start" type="date" name="start" value="{{item.start}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="plannedend">Planned End</label></td>
+				<td><input id="plannedend" type="date" name="plannedend" value="{{item.plannedend}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="end">End</label></td>
+				<td><input id="end" type="date" name="end" value="{{item.end}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="responsible">Responsible</label></td>
+				<td><input id="responsible" type="text" name="responsible" value="{{item.responsible}}" disabled></td>
+			</tr>
+			<tr>
+				<td><label class="left_label" for="notes">Notes</label></td>
+				<td><textarea id="notes" name="notes" rows="3" cols="40" value="{{item.notes}}" disabled></textarea></td>
+			</tr>
+			</table>
+		<div class="buttons">
+			<input id="submit_delete" class="hide" type="submit" value="BORRAR">
+			<div class="card_line">
+				<paper-button id="delete_btn" class="btn" on-click="delete" raised>Delete</paper-button>
+				<paper-button id="exit_btn" class="btn" dialog-confirm raised>Exit</paper-button>
+			</div>
+		</div>
+		</form>
+		</paper-dialog-scrollable>
+	</paper-dialog>
+</template>
+<script>
+	var _0x7f26=["\x54\x61\x73\x6B\x2D\x64\x65\x6C\x65\x74\x65","\x69\x74\x65\x6D","\x73\x65\x74\x5F\x73\x65\x6C\x65\x63\x74\x5F\x66\x69\x65\x6C\x64\x73","\x6F\x70\x65\x6E","\x64\x69\x61\x6C\x6F\x67","\x24","\x76\x61\x6C\x75\x65","\x74\x79\x70\x65","\x73\x74\x61\x74\x75\x73","\x70\x72\x69\x6F\x72\x69\x74\x79","\x63\x6C\x69\x63\x6B","\x73\x75\x62\x6D\x69\x74\x5F\x64\x65\x6C\x65\x74\x65","\x66\x73","\x2E\x2F\x54\x61\x73\x6B\x2E\x6A\x73\x6F\x6E","\x72\x65\x61\x64\x46\x69\x6C\x65\x53\x79\x6E\x63","\x70\x61\x72\x73\x65","\x6C\x65\x6E\x67\x74\x68","\x69\x64","\x73\x70\x6C\x69\x63\x65","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x77\x72\x69\x74\x65\x46\x69\x6C\x65\x53\x79\x6E\x63","\x63\x6C\x6F\x73\x65","\x66\x69\x72\x65","\x61\x75\x74\x68\x5F\x6D\x73\x67","\x6C\x61\x73\x74\x52\x65\x73\x70\x6F\x6E\x73\x65","\x61\x6A\x61\x78","\x75\x6E\x64\x65\x66\x69\x6E\x65\x64","\x52\x65\x63\x6F\x72\x64\x20\x44\x65\x6C\x65\x74\x65\x64","\x6C\x61\x73\x74\x45\x72\x72\x6F\x72","\x6C\x6F\x67","\x45\x72\x72\x6F\x72\x20\x50\x72\x6F\x63\x65\x73\x73\x69\x6E\x67\x20\x52\x65\x71\x75\x65\x73\x74\x3A\x20"];Polymer({is:_0x7f26[0],open_delete_dialog:function(_0xee2fx1){this[_0x7f26[1]]= _0xee2fx1;this[_0x7f26[2]](_0xee2fx1);this[_0x7f26[5]][_0x7f26[4]][_0x7f26[3]]()},set_select_fields:function(_0xee2fx1){this[_0x7f26[5]][_0x7f26[7]][_0x7f26[6]]= _0xee2fx1[_0x7f26[7]];this[_0x7f26[5]][_0x7f26[8]][_0x7f26[6]]= _0xee2fx1[_0x7f26[8]];this[_0x7f26[5]][_0x7f26[9]][_0x7f26[6]]= _0xee2fx1[_0x7f26[9]]},form_submit:function(){this[_0x7f26[5]][_0x7f26[11]][_0x7f26[10]]()},delete:function(){var _0xee2fx2=require(_0x7f26[12]);var _0xee2fx3=JSON[_0x7f26[15]](_0xee2fx2[_0x7f26[14]](_0x7f26[13]));for(i= 0;i< _0xee2fx3[_0x7f26[16]];i++){if(_0xee2fx3[i][_0x7f26[17]]== this[_0x7f26[1]][_0x7f26[17]]){_0xee2fx3[_0x7f26[18]](i,1);i= _0xee2fx3[_0x7f26[16]]}};_0xee2fx2[_0x7f26[20]](_0x7f26[13],JSON[_0x7f26[19]](_0xee2fx3));this[_0x7f26[5]][_0x7f26[4]][_0x7f26[21]]();this[_0x7f26[22]](_0x7f26[21])},record_deleted:function(){if( typeof this[_0x7f26[5]][_0x7f26[25]][_0x7f26[24]][_0x7f26[23]]!== _0x7f26[26]){alert(this[_0x7f26[5]][_0x7f26[25]][_0x7f26[24]][_0x7f26[23]]);return};alert(_0x7f26[27]);this[_0x7f26[5]][_0x7f26[4]][_0x7f26[21]]();this[_0x7f26[22]](_0x7f26[21])},ajax_error:function(){console[_0x7f26[29]](this[_0x7f26[5]][_0x7f26[25]][_0x7f26[28]]);alert(_0x7f26[30],this[_0x7f26[5]][_0x7f26[25]][_0x7f26[28]])}})
+</script>
+</dom-module>
+
+<dom-module id="Task-list">
+<template>
+<!--USER POINT - List Style-->
+<!--END USER POINT - List Style-->
+	<!--<iron-ajax id="ajax" handle-as="json" on-response="load_data" on-error="ajax_error"></iron-ajax>-->
+	<Task-list-columns id="Task_list_columns" on-close="update_columns"></Task-list-columns>
+	<Task-new id="Task_new_dialog" on-close="reload"></Task-new>
+	<Task-display id="Task_display_dialog"></Task-display>
+	<Task-edit id="Task_edit_dialog" on-close="reload"></Task-edit>
+	<Task-delete id="Task_delete_dialog" on-close="reload"></Task-delete>
+	<Task-about id="about_dialog"></Task-about>
+	<!--<div class="card_title">List Activity</div>-->
+<!--USER POINT - List Header-->
+<!--END USER POINT - List Header-->
+	<select id="filter" on-change="input_type">  
+		<option value="id">Id</option>  
+		<option value="activity">Activity</option> 
+		<option value="type">Type</option>  
+		<option value="status">Status</option> 
+		<option value="priority">Priority</option>  
+		<option value="requester">Requester</option>  
+		<option value="requestd">Request</option>  
+		<option value="start">Start</option>  
+		<option value="plannedend">Planned End</option> 
+		<option value="end">End</option>  
+		<option value="responsible">Responsible</option> 
+		<option value="notes">Notes</option>
+	</select>
+	<select id="op">   
+		<option value="$gte">Greater or Equal to</option>
+		<option value="$eq">Equal to</option>
+		<option value="$ne">Different to</option>
+		<option value="$contains">Contains</option>
+		<option value="$lte">Less or Equal to</option>
+	</select>
+	<input id="filtro" type="{{tipo}}" on-click="select_field">
+	<select id="select" class="hide">
+	  <template is="dom-repeat" items="{{opts}}">
+		<option value="{{item.op}}">{{item.des}}</option>
+	  </template>
+	</select>
+	<select id="logic" on-change="logic_operator">
+		<option value="-">---</option>
+		<option value="$and">And</option>
+		<option value="$or">Or</option>
+	</select>
+	<paper-button class="btn" on-click="filter" raised>Find</paper-button>
+	<strong id="total">{{regs}}</strong>
+	<div id="btn_area">
+		<paper-fab id="btn_add" mini on-click="new" icon="add"></paper-fab>
+		<paper-fab id="btn_down" mini on-click="download" icon="file-download"></paper-fab>
+		<paper-fab id="btn_print" mini on-click="print" icon="print"></paper-fab>
+		<paper-fab id="btn_help" mini on-click="help" icon="help"></paper-fab>
+		<paper-fab id="btn_about" mini on-click="about" icon="star"></paper-fab>
+		<!--<paper-fab id="btn_menu" mini on-click="menu" icon="list"></paper-fab>-->
+	</div>
+	<a href="{{download_data}}" id="link" class="hide" download="Activity.xml">Download Data</a>
+	<br>
+	<select id="filter2" class="hide" on-change="input_type2">
+		<option value="id">Id</option>
+		<option value="activity">Activity</option>
+		<option value="type">Type</option>
+		<option value="status">Status</option>
+		<option value="priority">Priority</option>
+		<option value="requester">Requester</option>
+		<option value="requestd">Request</option>
+		<option value="start">Start</option>
+		<option value="plannedend">Planned End</option>
+		<option value="end">End</option>
+		<option value="responsible">Responsible</option>
+		<option value="notes">Notes</option>
+	</select>
+	<select id="op2" class="hide" >   
+		<option value="$eq">Equal to</option>
+		<option value="$ne">Different to</option>
+		<option value="$contains">Contains</option>
+		<option value="$gte">Greater or Equal to</option>
+		<option value="$lte">Less or Equal to</option>
+	</select>
+	<input id="filtro2" class="hide" type="{{tipo2}}" on-click="select_field">
+	<select id="select2" class="hide">
+	  <template is="dom-repeat" items="{{opts2}}">
+		<option value="{{item.op}}">{{item.des}}</option>
+	  </template>
+	</select>
+
+	<paper-dialog id="menu_dialog"> 
+		<paper-menu>
+			<paper-item on-click="display" style="min-height:20px;line-height:35px;">Display</paper-item>
+			<paper-item on-click="edit" style="min-height:20px;line-height:35px;">Edit</paper-item>
+			<paper-item on-click="delete" style="min-height:20px;line-height:35px;">Delete</paper-item>
+<!--USER POINT - List Detail Menu-->
+<!--END USER POINT - List Detail Menu-->
+		</paper-menu>
+	</paper-dialog>
+	<table id="data_table" class="table_list" style="width:100%">
+	<thead>
+	  <tr>
+		<th id="th_ops" class="ops"><paper-icon-button on-click="list_columns" icon="settings"></paper-icon-button></th>
+		<th class="col_id" on-click="sort_by_field">Id<div id="id_sort_d" class="hide">
+			<iron-icon id="id_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_activity" on-click="sort_by_field">Activity<div id="activity_sort_d" class="hide">
+			<iron-icon id="activity_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_type" on-click="sort_by_field">Type<div id="type_sort_d" class="hide">
+			<iron-icon id="type_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_status" on-click="sort_by_field">Status<div id="status_sort_d" class="hide">
+			<iron-icon id="status_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_priority" on-click="sort_by_field">Priority<div id="priority_sort_d" class="hide">
+			<iron-icon id="priority_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_requester" on-click="sort_by_field">Requester<div id="requester_sort_d" class="hide">
+			<iron-icon id="requester_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_requestd" on-click="sort_by_field">Request<div id="requestd_sort_d" class="hide">
+			<iron-icon id="requestd_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_start" on-click="sort_by_field">Start<div id="start_sort_d" class="hide">
+			<iron-icon id="start_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_plannedend" on-click="sort_by_field">Planned End<div id="plannedend_sort_d" class="hide">
+			<iron-icon id="plannedend_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_end" on-click="sort_by_field">End<div id="end_sort_d" class="hide">
+			<iron-icon id="end_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_responsible" on-click="sort_by_field">Responsible<div id="responsible_sort_d" class="hide">
+			<iron-icon id="responsible_sort" icon="arrow-drop-up"></iron-icon></div></th>
+		<th class="col_notes" on-click="sort_by_field">Notes<div id="notes_sort_d" class="hide">
+			<iron-icon id="notes_sort" icon="arrow-drop-up"></iron-icon></div></th>
+	  </tr>
+	</thead>
+	<!--<tfoot>
+	<tr>
+		<td class="ops"></td>
+		<td class="col_id"></td>
+		<td class="col_activity"></td>
+		<td class="col_type"></td>
+		<td class="col_status"></td>
+		<td class="col_priority"></td>
+		<td class="col_requester"></td>
+		<td class="col_requestd"></td>
+		<td class="col_start"></td>
+		<td class="col_plannedend"></td>
+		<td class="col_end"></td>
+		<td class="col_responsible"></td>
+		<td class="col_notes"></td>
+	</tr>
+	</tfoot>-->
+	<tbody>
+	<template id="template_items" is="dom-repeat" items="{{filtered_data}}">
+	<tr>
+		<td id="td_ops" class="ops">
+			<paper-icon-button key="{{item.id}}" on-click="item_menu_toggle" class="icon-op" icon="list"></paper-icon-button>
+		</td>
+		<template is="dom-if" if="{{column.id}}"><td>{{item.id}}</td></template>
+		<template is="dom-if" if="{{column.activity}}"><td>{{item.activity}}</td></template>
+		<template is="dom-if" if="{{column.type}}"><td>{{item.type_des}}</td></template>
+		<template is="dom-if" if="{{column.status}}"><td>{{item.status_des}}</td></template>
+		<template is="dom-if" if="{{column.priority}}"><td>{{item.priority_des}}</td></template>
+		<template is="dom-if" if="{{column.requester}}"><td>{{item.requester}}</td></template>
+		<template is="dom-if" if="{{column.requestd}}"><td>{{date_dma(item.requestd)}}</td></template>
+		<template is="dom-if" if="{{column.start}}"><td>{{date_dma(item.start)}}</td></template>
+		<template is="dom-if" if="{{column.plannedend}}"><td>{{date_dma(item.plannedend)}}</td></template>
+		<template is="dom-if" if="{{column.end}}"><td>{{date_dma(item.end)}}</td></template>
+		<template is="dom-if" if="{{column.responsible}}"><td>{{item.responsible}}</td></template>
+		<template is="dom-if" if="{{column.notes}}"><td>{{item.notes}}</td></template>
+	</tr>
+	</template>
+	</tbody>
+</table>
+</template>
+<script>
+	var _0x5e7f=["\x54\x61\x73\x6B\x2D\x6C\x69\x73\x74","\x63\x75\x72\x5F\x73\x6F\x72\x74","\x69\x64","\x63\x75\x72\x5F\x66\x69\x6C\x74\x65\x72","\x69\x6E\x74\x65\x67\x65\x72","\x61\x63\x74\x69\x76\x69\x74\x79","\x73\x74\x72\x69\x6E\x67","\x74\x79\x70\x65","\x69","\x74","\x63","\x70","\x49\x6E\x63\x69\x64\x65\x6E\x74","\x54\x61\x73\x6B","\x43\x68\x61\x6E\x67\x65","\x50\x72\x6F\x6A\x65\x63\x74","\x73\x74\x61\x74\x75\x73","\x6C","\x65","\x73","\x78","\x50\x65\x6E\x64\x69\x6E\x67","\x50\x6C\x61\x6E\x6E\x69\x6E\x67","\x57\x6F\x72\x6B\x69\x6E\x67\x20\x6F\x6E","\x53\x74\x61\x6E\x64\x20\x62\x79","\x43\x65\x72\x74\x69\x66\x69\x63\x61\x74\x65","\x43\x6C\x6F\x73\x65","\x70\x72\x69\x6F\x72\x69\x74\x79","\x62","\x6D","\x61","\x4C\x6F\x77","\x4D\x65\x64\x69\x75\x6D","\x48\x69\x67\x68\x74","\x43\x72\x69\x74\x69\x63","\x72\x65\x71\x75\x65\x73\x74\x65\x72","\x72\x65\x71\x75\x65\x73\x74\x64","\x64\x61\x74\x65","\x73\x74\x61\x72\x74","\x70\x6C\x61\x6E\x6E\x65\x64\x65\x6E\x64","\x65\x6E\x64","\x72\x65\x73\x70\x6F\x6E\x73\x69\x62\x6C\x65","\x6E\x6F\x74\x65\x73","\x65\x6E\x75\x6D\x73","\x64\x61\x74\x61","\x64\x61\x74\x61\x5F\x54\x61\x73\x6B","\x61\x64\x64\x43\x6F\x6C\x6C\x65\x63\x74\x69\x6F\x6E","\x6D\x6F\x64\x65\x6C","\x6D\x6F\x64\x65\x6C\x5F\x54\x61\x73\x6B","\x72\x65\x6C\x6F\x61\x64","\x6C\x65\x6E\x67\x74\x68","\x69\x6E\x73\x65\x72\x74","\x69\x6E\x70\x75\x74\x5F\x74\x79\x70\x65","\x73\x65\x74\x5F\x66\x69\x6C\x74\x65\x72","\x45\x78\x69\x74","\x23\x62\x74\x6E\x5F\x68\x65\x6C\x70","\x42\x75\x74\x74\x6F\x6E\x20\x66\x6F\x72\x20\x47\x65\x74\x74\x69\x6E\x67\x20\x48\x65\x6C\x70\x20\x61\x62\x6F\x75\x74\x20\x74\x68\x69\x73\x20\x61\x70\x70","\x73\x65\x74\x4F\x70\x74\x69\x6F\x6E\x73","\x6F\x70\x65\x6E\x5F\x61\x62\x6F\x75\x74\x5F\x64\x69\x61\x6C\x6F\x67","\x61\x62\x6F\x75\x74\x5F\x64\x69\x61\x6C\x6F\x67","\x24","\x4E\x65\x78\x74","\x50\x72\x65\x76\x69\x6F\x75\x73","\x23\x66\x69\x6C\x74\x65\x72","\x54\x68\x65\x20\x4C\x69\x73\x74\x20\x6F\x66\x20\x72\x65\x63\x6F\x72\x64\x73\x20\x63\x61\x6E\x20\x62\x65\x20\x66\x69\x6C\x74\x65\x72\x65\x64\x20\x62\x79\x20\x61\x6E\x79\x20\x6F\x66\x20\x74\x68\x69\x73\x20\x66\x69\x65\x6C\x64\x73","\x23\x6F\x70","\x43\x6F\x6D\x70\x61\x72\x69\x73\x6F\x6E\x20\x4F\x70\x65\x72\x61\x74\x6F\x72","\x23\x66\x69\x6C\x74\x72\x6F","\x43\x6F\x6D\x70\x61\x72\x69\x73\x6F\x6E\x20\x56\x61\x6C\x75\x65","\x23\x6C\x6F\x67\x69\x63","\x41\x20\x53\x65\x63\x6F\x6E\x64\x20\x46\x69\x6C\x74\x65\x72\x20\x63\x61\x6E\x20\x62\x65\x20\x64\x65\x66\x69\x6E\x65\x64","\x23\x62\x74\x6E\x5F\x61\x64\x64","\x42\x75\x74\x74\x6F\x6E\x20\x66\x6F\x72\x20\x63\x72\x65\x61\x74\x65\x20\x61\x20\x4E\x65\x77\x20\x52\x65\x63\x6F\x72\x64","\x23\x62\x74\x6E\x5F\x64\x6F\x77\x6E","\x44\x6F\x77\x6E\x6C\x6F\x61\x64\x20\x42\x75\x74\x74\x6F\x6E\x20\x66\x6F\x72\x20\x65\x78\x70\x6F\x72\x74\x20\x64\x61\x74\x61\x20\x74\x6F\x20\x45\x78\x63\x65\x6C\x2C\x20\x61\x73\x20\x61\x20\x58\x4D\x4C\x20\x66\x69\x6C\x65","\x23\x62\x74\x6E\x5F\x70\x72\x69\x6E\x74","\x50\x72\x69\x6E\x74\x20\x42\x75\x74\x74\x6F\x6E\x2C\x20\x74\x68\x65\x20\x70\x72\x69\x6E\x74\x20\x63\x61\x6E\x20\x62\x65\x20\x65\x78\x70\x6F\x72\x74\x20\x74\x6F\x20\x50\x44\x46","\x23\x64\x61\x74\x61\x5F\x74\x61\x62\x6C\x65","\x4C\x69\x73\x74\x20\x6F\x66\x20\x46\x69\x6C\x74\x65\x72\x65\x64\x20\x52\x65\x63\x6F\x72\x64\x73","\x74\x6F\x70","\x23\x74\x68\x5F\x6F\x70\x73","\x43\x6F\x6E\x66\x69\x67\x75\x72\x65\x20\x43\x6F\x6C\x75\x6D\x6E\x73\x20\x74\x6F\x20\x73\x68\x6F\x77\x20\x69\x6E\x20\x46\x69\x6C\x74\x65\x72\x65\x64\x20\x4C\x69\x73\x74\x20\x6F\x66\x20\x52\x65\x63\x6F\x72\x64\x73","\x23\x74\x64\x5F\x6F\x70\x73","\x4F\x70\x74\x69\x6F\x6E\x73\x20\x66\x6F\x72\x3A\x3C\x62\x72\x3E\x20\x2D\x20\x44\x69\x73\x70\x6C\x61\x79\x20\x52\x65\x63\x6F\x72\x64\x3C\x62\x72\x3E\x20\x2D\x20\x45\x64\x69\x74\x20\x52\x65\x63\x6F\x72\x64\x3C\x62\x72\x3E\x20\x2D\x20\x44\x65\x6C\x65\x74\x65\x20\x52\x65\x63\x6F\x72\x64","\x23\x78","\x41\x6E\x79\x20\x43\x6F\x6C\x75\x6D\x6E\x20\x63\x61\x6E\x20\x62\x65\x20\x6F\x72\x64\x65\x72\x65\x64\x20\x61\x73\x63\x65\x6E\x64\x69\x6E\x67\x20\x6F\x72\x20\x64\x65\x73\x63\x65\x6E\x64\x69\x6E\x67\x20\x63\x6C\x69\x63\x6B\x69\x6E\x67\x20\x69\x74\x20\x6F\x6E\x20\x74\x69\x74\x6C\x65","\x63\x6F\x6C\x75\x6D\x6E","\x6F\x70\x65\x6E\x5F\x6C\x69\x73\x74\x5F\x63\x6F\x6C\x75\x6D\x6E\x73","\x54\x61\x73\x6B\x5F\x6C\x69\x73\x74\x5F\x63\x6F\x6C\x75\x6D\x6E\x73","\x64\x69\x73\x70\x6C\x61\x79","\x54\x61\x73\x6B\x2D\x6C\x69\x73\x74\x2D\x63\x6F\x6C\x75\x6D\x6E\x73","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x73\x68\x6F\x77\x5F\x63\x6F\x6C\x75\x6D\x6E\x73","\x76\x61\x6C\x75\x65","\x66\x69\x6C\x74\x65\x72","\x6F\x70","\x24\x65\x71","\x66\x69\x6C\x74\x72\x6F","","\x6C\x6F\x67\x69\x63","\x2D","\x6C\x6F\x67\x69\x63\x5F\x6F\x70\x65\x72\x61\x74\x6F\x72","\x63\x6F\x6C\x5F","\x2E","\x71\x75\x65\x72\x79\x53\x65\x6C\x65\x63\x74\x6F\x72\x41\x6C\x6C","\x64\x61\x74\x61\x5F\x74\x61\x62\x6C\x65","\x68\x69\x64\x65","\x72\x65\x6D\x6F\x76\x65","\x63\x6C\x61\x73\x73\x4C\x69\x73\x74","\x61\x64\x64","\x63\x6C\x61\x73\x73\x4E\x61\x6D\x65","\x66\x69\x6C\x74\x65\x72\x32","\x6F\x70\x32","\x66\x69\x6C\x74\x72\x6F\x32","\x73\x65\x6C\x65\x63\x74\x32","\x66\x69\x65\x6C\x64","\x74\x6F\x45\x6C\x65\x6D\x65\x6E\x74","\x6E\x61\x6D\x65","\x69\x74\x65\x6D","\x73\x72\x63\x45\x6C\x65\x6D\x65\x6E\x74","\x54\x61\x73\x6B\x2D\x6C\x69\x73\x74\x2D\x66\x69\x6C\x74\x65\x72","\x70\x61\x72\x73\x65","\x66\x69\x6E\x64","\x65\x6E\x75\x6D","\x6E\x75\x6D\x62\x65\x72","\x73\x65\x6C\x65\x63\x74","\x76\x61\x6C\x75\x65\x32","\x63\x6C\x61\x73\x73","\x67\x65\x74\x41\x74\x74\x72\x69\x62\x75\x74\x65","\x72\x65\x73\x75\x6C\x74\x5F\x73\x65\x74","\x69\x73\x64\x65\x73\x63","\x73\x69\x6D\x70\x6C\x65\x73\x6F\x72\x74","\x63\x68\x61\x69\x6E","\x66\x69\x6C\x74\x65\x72\x65\x64\x5F\x64\x61\x74\x61","\x72\x65\x67\x73","\x20\x72\x65\x67","\x69\x64\x5F\x73\x6F\x72\x74\x5F\x64","\x61\x63\x74\x69\x76\x69\x74\x79\x5F\x73\x6F\x72\x74\x5F\x64","\x74\x79\x70\x65\x5F\x73\x6F\x72\x74\x5F\x64","\x73\x74\x61\x74\x75\x73\x5F\x73\x6F\x72\x74\x5F\x64","\x70\x72\x69\x6F\x72\x69\x74\x79\x5F\x73\x6F\x72\x74\x5F\x64","\x72\x65\x71\x75\x65\x73\x74\x65\x72\x5F\x73\x6F\x72\x74\x5F\x64","\x72\x65\x71\x75\x65\x73\x74\x64\x5F\x73\x6F\x72\x74\x5F\x64","\x73\x74\x61\x72\x74\x5F\x73\x6F\x72\x74\x5F\x64","\x70\x6C\x61\x6E\x6E\x65\x64\x65\x6E\x64\x5F\x73\x6F\x72\x74\x5F\x64","\x65\x6E\x64\x5F\x73\x6F\x72\x74\x5F\x64","\x72\x65\x73\x70\x6F\x6E\x73\x69\x62\x6C\x65\x5F\x73\x6F\x72\x74\x5F\x64","\x6E\x6F\x74\x65\x73\x5F\x73\x6F\x72\x74\x5F\x64","\x72\x65\x70\x6C\x61\x63\x65","\x74\x61\x72\x67\x65\x74","\x68\x69\x64\x65\x5F\x73\x6F\x72\x74\x5F\x69\x63\x6F\x6E\x73","\x73\x6F\x72\x74","\x69\x63\x6F\x6E","\x61\x72\x72\x6F\x77\x2D\x64\x72\x6F\x70\x2D\x64\x6F\x77\x6E","\x73\x65\x74\x41\x74\x74\x72\x69\x62\x75\x74\x65","\x5F\x73\x6F\x72\x74","\x61\x72\x72\x6F\x77\x2D\x64\x72\x6F\x70\x2D\x75\x70","\x5F\x73\x6F\x72\x74\x5F\x64","\x74\x65\x78\x74","\x62\x6F\x6F\x6C\x65\x61\x6E","\x66\x6C\x6F\x61\x74","\x74\x69\x70\x6F","\x74\x69\x70\x6F\x32","\x6F\x70\x74\x73","\x65\x6E\x75\x6D\x64\x65\x73","\x70\x75\x73\x68","\x6F\x70\x74\x73\x32","\x70\x72\x69\x6E\x74","\x24\x6C\x6F\x6B\x69","\x6D\x65\x74\x61","\x63\x72\x65\x61\x74\x65\x64\x41\x74","\x75\x70\x64\x61\x74\x65\x64\x41\x74","\x6A\x73\x6F\x6E\x32\x78\x6D\x6C\x5F\x73\x74\x72","\x3C\x78\x3E","\x3C\x2F\x78\x3E","\x64\x6F\x77\x6E\x6C\x6F\x61\x64\x5F\x64\x61\x74\x61","\x64\x61\x74\x61\x3A\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x78\x6D\x6C\x3B\x63\x68\x61\x72\x73\x65\x74\x3D\x75\x74\x66\x2D\x38\x2C","\x63\x6C\x69\x63\x6B","\x6C\x69\x6E\x6B","\x6B\x65\x79","\x6F\x66\x66\x73\x65\x74\x50\x61\x72\x65\x6E\x74","\x73\x74\x79\x6C\x65","\x6D\x65\x6E\x75\x5F\x64\x69\x61\x6C\x6F\x67","\x6F\x66\x66\x73\x65\x74\x54\x6F\x70","\x70\x78","\x6C\x65\x66\x74","\x33\x30\x70\x78","\x6F\x70\x65\x6E","\x63\x6C\x6F\x73\x65","\x6F\x70\x65\x6E\x5F\x64\x69\x73\x70\x6C\x61\x79\x5F\x64\x69\x61\x6C\x6F\x67","\x54\x61\x73\x6B\x5F\x64\x69\x73\x70\x6C\x61\x79\x5F\x64\x69\x61\x6C\x6F\x67","\x6F\x70\x65\x6E\x5F\x64\x69\x61\x6C\x6F\x67","\x54\x61\x73\x6B\x5F\x65\x64\x69\x74\x5F\x64\x69\x61\x6C\x6F\x67","\x6F\x70\x65\x6E\x5F\x64\x65\x6C\x65\x74\x65\x5F\x64\x69\x61\x6C\x6F\x67","\x54\x61\x73\x6B\x5F\x64\x65\x6C\x65\x74\x65\x5F\x64\x69\x61\x6C\x6F\x67","\x54\x61\x73\x6B\x5F\x6E\x65\x77\x5F\x64\x69\x61\x6C\x6F\x67","\x66\x73","\x2E\x2F\x54\x61\x73\x6B\x2E\x6A\x73\x6F\x6E","\x72\x65\x61\x64\x46\x69\x6C\x65\x53\x79\x6E\x63","\x73\x75\x62\x73\x74\x72\x69\x6E\x67","\x74\x79\x70\x65\x5F\x64\x65\x73","\x73\x74\x61\x74\x75\x73\x5F\x64\x65\x73","\x70\x72\x69\x6F\x72\x69\x74\x79\x5F\x64\x65\x73","\x61\x75\x74\x68\x5F\x6D\x73\x67","\x6C\x61\x73\x74\x52\x65\x73\x70\x6F\x6E\x73\x65","\x61\x6A\x61\x78","\x75\x6E\x64\x65\x66\x69\x6E\x65\x64","\x6C\x61\x73\x74\x45\x72\x72\x6F\x72","\x6C\x6F\x67","\x45\x72\x72\x6F\x72\x20\x50\x72\x6F\x63\x65\x73\x73\x69\x6E\x67\x20\x52\x65\x71\x75\x65\x73\x74\x3A\x20"];Polymer({is:_0x5e7f[0],properties:{},ready:function(){this[_0x5e7f[1]]= {field:_0x5e7f[2],isdesc:true};this[_0x5e7f[3]]= {};var _0x8259x1=[{column:_0x5e7f[2],type:_0x5e7f[4],display:true},{column:_0x5e7f[5],type:_0x5e7f[6],display:true},{column:_0x5e7f[7],enum:[_0x5e7f[8],_0x5e7f[9],_0x5e7f[10],_0x5e7f[11]],enumdes:[_0x5e7f[12],_0x5e7f[13],_0x5e7f[14],_0x5e7f[15]],display:true},{column:_0x5e7f[16],enum:[_0x5e7f[11],_0x5e7f[17],_0x5e7f[18],_0x5e7f[19],_0x5e7f[10],_0x5e7f[20]],enumdes:[_0x5e7f[21],_0x5e7f[22],_0x5e7f[23],_0x5e7f[24],_0x5e7f[25],_0x5e7f[26]],display:true},{column:_0x5e7f[27],enum:[_0x5e7f[28],_0x5e7f[29],_0x5e7f[30],_0x5e7f[10]],enumdes:[_0x5e7f[31],_0x5e7f[32],_0x5e7f[33],_0x5e7f[34]],display:true},{column:_0x5e7f[35],type:_0x5e7f[6],display:false},{column:_0x5e7f[36],type:_0x5e7f[37],display:true},{column:_0x5e7f[38],type:_0x5e7f[37],display:true},{column:_0x5e7f[39],type:_0x5e7f[37],display:true},{column:_0x5e7f[40],type:_0x5e7f[37],display:true},{column:_0x5e7f[41],type:_0x5e7f[6],display:false},{column:_0x5e7f[42],type:_0x5e7f[6],display:false}];this[_0x5e7f[43]]= {};this[_0x5e7f[43]][_0x5e7f[7]]= {i:_0x5e7f[12],t:_0x5e7f[13],c:_0x5e7f[14],p:_0x5e7f[15]};this[_0x5e7f[43]][_0x5e7f[16]]= {p:_0x5e7f[21],l:_0x5e7f[22],e:_0x5e7f[23],s:_0x5e7f[24],c:_0x5e7f[25],x:_0x5e7f[26]};this[_0x5e7f[43]][_0x5e7f[27]]= {b:_0x5e7f[31],m:_0x5e7f[32],a:_0x5e7f[33],c:_0x5e7f[34]};var _0x8259x2= new loki();this[_0x5e7f[44]]= _0x8259x2[_0x5e7f[46]](_0x5e7f[45]);this[_0x5e7f[47]]= _0x8259x2[_0x5e7f[46]](_0x5e7f[48]);this[_0x5e7f[49]]();for(i= 0;i< _0x8259x1[_0x5e7f[50]];i++){this[_0x5e7f[47]][_0x5e7f[51]](_0x8259x1[i])};_0x8259x1= {};this[_0x5e7f[52]]();this[_0x5e7f[53]]();var _0x8259x3=introJs();_0x8259x3[_0x5e7f[57]]({doneLabel:_0x5e7f[54],steps:[{element:_0x5e7f[55],intro:_0x5e7f[56]}],showStepNumbers:false})},about:function(){this[_0x5e7f[60]][_0x5e7f[59]][_0x5e7f[58]]()},help:function(){var _0x8259x3=introJs();_0x8259x3[_0x5e7f[57]]({skipLabel:_0x5e7f[54],nextLabel:_0x5e7f[61],prevLabel:_0x5e7f[62],doneLabel:_0x5e7f[54],showStepNumbers:false,steps:[{element:_0x5e7f[63],intro:_0x5e7f[64]},{element:_0x5e7f[65],intro:_0x5e7f[66]},{element:_0x5e7f[67],intro:_0x5e7f[68]},{element:_0x5e7f[69],intro:_0x5e7f[70]},{element:_0x5e7f[71],intro:_0x5e7f[72]},{element:_0x5e7f[73],intro:_0x5e7f[74]},{element:_0x5e7f[75],intro:_0x5e7f[76]},{element:_0x5e7f[77],intro:_0x5e7f[78],position:_0x5e7f[79]},{element:_0x5e7f[80],intro:_0x5e7f[81]},{element:_0x5e7f[82],intro:_0x5e7f[83]},{element:_0x5e7f[84],intro:_0x5e7f[85]}]});_0x8259x3[_0x5e7f[38]]()},list_columns:function(){this[_0x5e7f[60]][_0x5e7f[88]][_0x5e7f[87]](this[_0x5e7f[86]])},update_columns:function(){var _0x8259x4={};this[_0x5e7f[86]]= this[_0x5e7f[60]][_0x5e7f[88]][_0x5e7f[86]];for(i= 0;i< this[_0x5e7f[47]][_0x5e7f[44]][_0x5e7f[50]];i++){this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[89]]= this[_0x5e7f[86]][this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]]];_0x8259x4[this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]]]= this[_0x5e7f[86]][this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]]]};localStorage[_0x5e7f[90]]= JSON[_0x5e7f[91]](_0x8259x4);this[_0x5e7f[92]]();this[_0x5e7f[60]][_0x5e7f[94]][_0x5e7f[93]]= _0x5e7f[2];this[_0x5e7f[60]][_0x5e7f[95]][_0x5e7f[93]]= _0x5e7f[96];this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]]= _0x5e7f[98];this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]]= _0x5e7f[100];this[_0x5e7f[101]]();this[_0x5e7f[94]]()},show_columns:function(){var _0x8259x5=_0x5e7f[98];this[_0x5e7f[86]]= {};var _0x8259x6=[];for(i= 0;i< this[_0x5e7f[47]][_0x5e7f[44]][_0x5e7f[50]];i++){this[_0x5e7f[86]][this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]]]= this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[89]];_0x8259x5= _0x5e7f[102]+ this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]];_0x8259x6= this[_0x5e7f[60]][_0x5e7f[105]][_0x5e7f[104]](_0x5e7f[103]+ _0x8259x5);for(j= 0;j< _0x8259x6[_0x5e7f[50]];j++){if(this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[89]]){_0x8259x6[j][_0x5e7f[108]][_0x5e7f[107]](_0x5e7f[106])}else {_0x8259x6[j][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106])}}}},date_dma:function(_0x8259x7){return datex_dma(_0x8259x7)},logic_operator:function(){if(this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]]== _0x5e7f[100]){this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[60]][_0x5e7f[112]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[110]]= _0x5e7f[106]}else {this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[60]][_0x5e7f[112]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[52]](2)}},select_field:function(_0x8259x8){this[_0x5e7f[115]]= _0x8259x8[_0x5e7f[116]][_0x5e7f[2]];var _0x8259x9=_0x5e7f[98];switch(this[_0x5e7f[115]]){case _0x5e7f[97]:_0x8259x9= _0x5e7f[94];break;case _0x5e7f[113]:_0x8259x9= _0x5e7f[111];break};if(_0x8259x9!= _0x5e7f[98]){}},set_select_field:function(_0x8259x8){this[_0x5e7f[60]][this[_0x5e7f[115]]][_0x5e7f[93]]= this[_0x5e7f[60]][_0x8259x8[_0x5e7f[119]][_0x5e7f[2]]][_0x5e7f[118]][_0x5e7f[117]]},set_filter:function(){if(localStorage[_0x5e7f[120]]){var _0x8259xa=JSON[_0x5e7f[121]](localStorage[_0x5e7f[120]]);this[_0x5e7f[60]][_0x5e7f[94]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[94]];this[_0x5e7f[60]][_0x5e7f[95]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[95]];this[_0x5e7f[52]]();var _0x8259x5=this[_0x5e7f[47]][_0x5e7f[122]]({"\x63\x6F\x6C\x75\x6D\x6E":this[_0x5e7f[60]][_0x5e7f[94]][_0x5e7f[93]]});if(_0x8259x5[0][_0x5e7f[123]]){if(_0x8259x5[0][_0x5e7f[7]]!= _0x5e7f[124]){this[_0x5e7f[60]][_0x5e7f[125]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[93]]}else {this[_0x5e7f[60]][_0x5e7f[125]][_0x5e7f[93]]= Number(_0x8259xa[_0x5e7f[93]])}}else {if(_0x8259x5[0][_0x5e7f[7]]!= _0x5e7f[124]){this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[93]]}else {this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]]= Number(_0x8259xa[_0x5e7f[93]])}};if(_0x8259xa[_0x5e7f[111]]){this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[99]];this[_0x5e7f[101]]();this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[111]];this[_0x5e7f[60]][_0x5e7f[112]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[112]];this[_0x5e7f[52]](2);var _0x8259x5=this[_0x5e7f[47]][_0x5e7f[122]]({"\x63\x6F\x6C\x75\x6D\x6E":this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[93]]});if(_0x8259x5[0][_0x5e7f[123]]){if(_0x8259x5[0][_0x5e7f[7]]!= _0x5e7f[124]){this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[126]]}else {this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[93]]= Number(_0x8259xa[_0x5e7f[126]])}}else {if(_0x8259x5[0][_0x5e7f[7]]!= _0x5e7f[124]){this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[93]]= _0x8259xa[_0x5e7f[126]]}else {this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[93]]= Number(_0x8259xa[_0x5e7f[126]])}}};this[_0x5e7f[94]]()};if(localStorage[_0x5e7f[90]]){var _0x8259x4=JSON[_0x5e7f[121]](localStorage[_0x5e7f[90]]);for(i= 0;i< this[_0x5e7f[47]][_0x5e7f[44]][_0x5e7f[50]];i++){this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[89]]= _0x8259x4[this[_0x5e7f[47]][_0x5e7f[44]][i][_0x5e7f[86]]]}};this[_0x5e7f[92]]()},filter:function(){var _0x8259xa={};var _0x8259xb=this[_0x5e7f[60]][_0x5e7f[94]][_0x5e7f[93]];_0x8259xa[_0x5e7f[94]]= _0x8259xb;var _0x8259xc=this[_0x5e7f[60]][_0x5e7f[95]][_0x5e7f[93]];_0x8259xa[_0x5e7f[95]]= _0x8259xc;var _0x8259xd={};this[_0x5e7f[3]]= {};if(this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[128]](_0x5e7f[127])!= _0x5e7f[106]){if(this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[128]](_0x5e7f[7])== _0x5e7f[124]){_0x8259xd[_0x8259xc]= Number(this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]])}else {_0x8259xd[_0x8259xc]= this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]]}}else {_0x8259xd[_0x8259xc]= this[_0x5e7f[60]][_0x5e7f[125]][_0x5e7f[93]]};this[_0x5e7f[3]][_0x8259xb]= _0x8259xd;_0x8259xa[_0x5e7f[93]]= _0x8259xd[_0x8259xc];if(this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]]!= _0x5e7f[100]){_0x8259xb= this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[93]];_0x8259xc= this[_0x5e7f[60]][_0x5e7f[112]][_0x5e7f[93]];_0x8259xa[_0x5e7f[99]]= this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]];_0x8259xa[_0x5e7f[111]]= _0x8259xb;_0x8259xa[_0x5e7f[112]]= _0x8259xc;_0x8259xd= {};var _0x8259xe=this[_0x5e7f[60]][_0x5e7f[99]][_0x5e7f[93]];var _0x8259xf={};if(this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[128]](_0x5e7f[127])!= _0x5e7f[106]){if(this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[128]](_0x5e7f[7])== _0x5e7f[124]){_0x8259xd[_0x8259xc]= Number(this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[93]])}else {_0x8259xd[_0x8259xc]= this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[93]]}}else {_0x8259xd[_0x8259xc]= this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[93]]};_0x8259xa[_0x5e7f[126]]= _0x8259xd[_0x8259xc];_0x8259xf[_0x8259xb]= _0x8259xd;var _0x8259x10=this[_0x5e7f[3]];this[_0x5e7f[3]]= {};this[_0x5e7f[3]][_0x8259xe]= [_0x8259x10,_0x8259xf]};localStorage[_0x5e7f[120]]= JSON[_0x5e7f[91]](_0x8259xa);this[_0x5e7f[129]]= this[_0x5e7f[44]][_0x5e7f[132]]()[_0x5e7f[122]](this[_0x5e7f[3]])[_0x5e7f[131]](this[_0x5e7f[1]][_0x5e7f[115]],this[_0x5e7f[1]][_0x5e7f[130]]);this[_0x5e7f[133]]= [];this[_0x5e7f[133]]= this[_0x5e7f[129]][_0x5e7f[44]]();this[_0x5e7f[134]]= this[_0x5e7f[133]][_0x5e7f[50]]+ _0x5e7f[135]},hide_sort_icons:function(){this[_0x5e7f[60]][_0x5e7f[136]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[137]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[138]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[139]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[140]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[141]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[142]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[143]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[144]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[145]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[146]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106]);this[_0x5e7f[60]][_0x5e7f[147]][_0x5e7f[108]][_0x5e7f[109]](_0x5e7f[106])},sort_by_field:function(_0x8259x8){var _0x8259x11=_0x8259x8[_0x5e7f[149]][_0x5e7f[108]][0][_0x5e7f[148]](_0x5e7f[102],_0x5e7f[98]);this[_0x5e7f[150]]();this[_0x5e7f[151]](_0x8259x11);if(this[_0x5e7f[1]][_0x5e7f[130]]){this[_0x5e7f[60]][_0x8259x11+ _0x5e7f[155]][_0x5e7f[154]](_0x5e7f[152],_0x5e7f[153])}else {this[_0x5e7f[60]][_0x8259x11+ _0x5e7f[155]][_0x5e7f[154]](_0x5e7f[152],_0x5e7f[156])};this[_0x5e7f[60]][_0x8259x11+ _0x5e7f[157]][_0x5e7f[108]][_0x5e7f[107]](_0x5e7f[106])},sort:function(_0x8259x11){if(this[_0x5e7f[1]][_0x5e7f[115]]== _0x8259x11){this[_0x5e7f[1]][_0x5e7f[130]]= !this[_0x5e7f[1]][_0x5e7f[130]]}else {this[_0x5e7f[1]]= {field:_0x8259x11,isdesc:false}};this[_0x5e7f[129]]= this[_0x5e7f[44]][_0x5e7f[132]]()[_0x5e7f[122]](this[_0x5e7f[3]])[_0x5e7f[131]](this[_0x5e7f[1]][_0x5e7f[115]],this[_0x5e7f[1]][_0x5e7f[130]]);this[_0x5e7f[133]]= this[_0x5e7f[129]][_0x5e7f[44]]()},input_type2:function(){this[_0x5e7f[52]](2)},input_type:function(_0x8259x12){if(_0x8259x12!= 2){this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[93]]= _0x5e7f[98];var _0x8259x5=this[_0x5e7f[47]][_0x5e7f[122]]({"\x63\x6F\x6C\x75\x6D\x6E":this[_0x5e7f[60]][_0x5e7f[94]][_0x5e7f[93]]})}else {this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[93]]= _0x5e7f[98];var _0x8259x5=this[_0x5e7f[47]][_0x5e7f[122]]({"\x63\x6F\x6C\x75\x6D\x6E":this[_0x5e7f[60]][_0x5e7f[111]][_0x5e7f[93]]})};if(_0x8259x5[0][_0x5e7f[7]]){var _0x8259x13=_0x5e7f[98];switch(_0x8259x5[0][_0x5e7f[7]]){case _0x5e7f[6]:_0x8259x13= _0x5e7f[158];break;case _0x5e7f[159]:_0x8259x13= _0x5e7f[159];break;case _0x5e7f[4]:_0x8259x13= _0x5e7f[124];break;case _0x5e7f[160]:_0x8259x13= _0x5e7f[160];break;case _0x5e7f[37]:_0x8259x13= _0x5e7f[37];break;default:_0x8259x13= _0x5e7f[158]};if(_0x8259x12!= 2){this[_0x5e7f[60]][_0x5e7f[125]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[161]]= _0x8259x13}else {this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[162]]= _0x8259x13}}else {if(_0x8259x12!= 2){this[_0x5e7f[60]][_0x5e7f[125]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[60]][_0x5e7f[97]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[163]]= [];for(i= 0;i< _0x8259x5[0][_0x5e7f[123]][_0x5e7f[50]];i++){this[_0x5e7f[165]](_0x5e7f[163],{"\x6F\x70":_0x8259x5[0][_0x5e7f[123]][i],"\x64\x65\x73":_0x8259x5[0][_0x5e7f[164]][i]})}}else {this[_0x5e7f[60]][_0x5e7f[114]][_0x5e7f[110]]= _0x5e7f[98];this[_0x5e7f[60]][_0x5e7f[113]][_0x5e7f[110]]= _0x5e7f[106];this[_0x5e7f[166]]= [];for(i= 0;i< _0x8259x5[0][_0x5e7f[123]][_0x5e7f[50]];i++){this[_0x5e7f[165]](_0x5e7f[166],{"\x6F\x70":_0x8259x5[0][_0x5e7f[123]][i],"\x64\x65\x73":_0x8259x5[0][_0x5e7f[164]][i]})}}}},menu:function(){},print:function(){window[_0x5e7f[167]]()},download:function(){var _0x8259x14= new X2JS();var _0x8259x15=this[_0x5e7f[44]][_0x5e7f[44]];for(i= 0;i< _0x8259x15[_0x5e7f[50]];i++){delete _0x8259x15[i][_0x5e7f[168]];delete _0x8259x15[i][_0x5e7f[169]];delete _0x8259x15[i][_0x5e7f[170]];delete _0x8259x15[i][_0x5e7f[171]]};var _0x8259x16={"\x64\x61\x74\x61":_0x8259x15};var _0x8259x17=_0x8259x14[_0x5e7f[172]](_0x8259x16);_0x8259x17= _0x5e7f[173]+ _0x8259x17+ _0x5e7f[174];this[_0x5e7f[175]]= _0x5e7f[176]+ _0x8259x17;this[_0x5e7f[60]][_0x5e7f[178]][_0x5e7f[177]]()},item_menu_toggle:function(_0x8259x8){this[_0x5e7f[179]]= Number(_0x8259x8[_0x5e7f[116]][_0x5e7f[180]][_0x5e7f[179]]);this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[181]][_0x5e7f[79]]= _0x8259x8[_0x5e7f[116]][_0x5e7f[180]][_0x5e7f[183]]+ 20+ _0x5e7f[184];this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[181]][_0x5e7f[185]]= _0x5e7f[186];this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[187]]()},display:function(_0x8259x8){this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[188]]();var _0x8259x10={"\x69\x64":this[_0x5e7f[179]]};var _0x8259x18=this[_0x5e7f[44]][_0x5e7f[122]](_0x8259x10)[0];this[_0x5e7f[60]][_0x5e7f[190]][_0x5e7f[189]](_0x8259x18)},edit:function(_0x8259x8){this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[188]]();var _0x8259x10={"\x69\x64":this[_0x5e7f[179]]};var _0x8259x18=this[_0x5e7f[44]][_0x5e7f[122]](_0x8259x10)[0];this[_0x5e7f[60]][_0x5e7f[192]][_0x5e7f[191]](_0x8259x18)},delete:function(_0x8259x8){this[_0x5e7f[60]][_0x5e7f[182]][_0x5e7f[188]]();var _0x8259x10={"\x69\x64":this[_0x5e7f[179]]};var _0x8259x18=this[_0x5e7f[44]][_0x5e7f[122]](_0x8259x10)[0];this[_0x5e7f[60]][_0x5e7f[194]][_0x5e7f[193]](_0x8259x18)},new:function(){this[_0x5e7f[60]][_0x5e7f[195]][_0x5e7f[191]]()},reload:function(){while(this[_0x5e7f[44]][_0x5e7f[44]][0]){this[_0x5e7f[44]][_0x5e7f[107]](this[_0x5e7f[44]][_0x5e7f[44]][0])};var _0x8259x19=require(_0x5e7f[196]);var _0x8259x1a=JSON[_0x5e7f[121]](_0x8259x19[_0x5e7f[198]](_0x5e7f[197]));for(i= 0;i< _0x8259x1a[_0x5e7f[50]];i++){if(_0x8259x1a[i][_0x5e7f[36]]){_0x8259x1a[i][_0x5e7f[36]]= _0x8259x1a[i][_0x5e7f[36]][_0x5e7f[199]](0,10)};if(_0x8259x1a[i][_0x5e7f[38]]){_0x8259x1a[i][_0x5e7f[38]]= _0x8259x1a[i][_0x5e7f[38]][_0x5e7f[199]](0,10)};if(_0x8259x1a[i][_0x5e7f[39]]){_0x8259x1a[i][_0x5e7f[39]]= _0x8259x1a[i][_0x5e7f[39]][_0x5e7f[199]](0,10)};if(_0x8259x1a[i][_0x5e7f[40]]){_0x8259x1a[i][_0x5e7f[40]]= _0x8259x1a[i][_0x5e7f[40]][_0x5e7f[199]](0,10)};_0x8259x1a[i][_0x5e7f[200]]= this[_0x5e7f[43]][_0x5e7f[7]][_0x8259x1a[i][_0x5e7f[7]]];_0x8259x1a[i][_0x5e7f[201]]= this[_0x5e7f[43]][_0x5e7f[16]][_0x8259x1a[i][_0x5e7f[16]]];_0x8259x1a[i][_0x5e7f[202]]= this[_0x5e7f[43]][_0x5e7f[27]][_0x8259x1a[i][_0x5e7f[27]]];this[_0x5e7f[44]][_0x5e7f[51]](_0x8259x1a[i])};this[_0x5e7f[94]]()},load_data:function(){while(this[_0x5e7f[44]][_0x5e7f[44]][0]){this[_0x5e7f[44]][_0x5e7f[107]](this[_0x5e7f[44]][_0x5e7f[44]][0])};if( typeof this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][_0x5e7f[203]]!== _0x5e7f[206]){alert(this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][_0x5e7f[203]]);return};for(i= 0;i< this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][_0x5e7f[50]];i++){if(this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[36]]){this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[36]]= this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[36]][_0x5e7f[199]](0,10)};if(this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[38]]){this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[38]]= this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[38]][_0x5e7f[199]](0,10)};if(this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[39]]){this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[39]]= this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[39]][_0x5e7f[199]](0,10)};if(this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[40]]){this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[40]]= this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[40]][_0x5e7f[199]](0,10)};this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[200]]= this[_0x5e7f[43]][_0x5e7f[7]][this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[7]]];this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[201]]= this[_0x5e7f[43]][_0x5e7f[16]][this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[16]]];this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[202]]= this[_0x5e7f[43]][_0x5e7f[27]][this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i][_0x5e7f[27]]];this[_0x5e7f[44]][_0x5e7f[51]](this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[204]][i])};this[_0x5e7f[94]]()},ajax_error:function(){console[_0x5e7f[208]](this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[207]]);alert(_0x5e7f[209],this[_0x5e7f[60]][_0x5e7f[205]][_0x5e7f[207]])}})
+</script>
+</dom-module>
+<paper-material class="card" elevation="2">
+	<Task-list id="Task_list"></Task-list>
+</paper-material>
+</body>
+</html>
