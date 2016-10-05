@@ -6,6 +6,9 @@ html, body {
 	background-color: rgb(245, 245, 245);
 	//background-color; whiteSmoke;
 }
+Card {
+	backgroud-color: blue;
+}
 .card {
 	margin: 15;
 	border-radius: 8px;
