@@ -15,9 +15,10 @@ Running App
 ## App Features
 
 - Filter activities for any attribute
-- Select Fields of table
+- Select Fields to display in table
 - Create, Edit, Delete & Display Activity record
 - Help Option
 - Print Option
 - Export Option (Can be opened in Excel)
+- Store Activities in Json File "Task.json"
 
