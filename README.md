@@ -1,7 +1,9 @@
 # electron-polymer-activities
 An Electron / Polymer.js App for Manage Activities
 
-## Running App
+You can view a Live Demo on Url: https://npgr.github.io/electron-polymer-activities/
+
+## Running App Locally
 
 Install Dependencies
 
